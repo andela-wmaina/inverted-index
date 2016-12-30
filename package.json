@@ -18,5 +18,8 @@
   "homepage": "https://github.com/andela-wmaina/inverted-index#readme",
   "devDependencies": {
     "gulp": "^3.9.1"
+  },
+  "dependencies": {
+    "gulp-open": "^2.0.0"
   }
 }
