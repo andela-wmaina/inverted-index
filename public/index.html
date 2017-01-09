@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Inverted Index application</title>
+	<script type="text/javascript" src="https://code.angularjs.org/1.3.14/angular.min.js"></script>
+	<style>
+		table, th , td  {
+		  border: 1px solid grey;
+		  border-collapse: collapse;
+		  padding: 2px;
+		  margin-left: 50px;
+		  margin-top: 10px;
+		  margin-bottom: 10px;
+		  width: 300px;
+		}
+		table tr:nth-child(odd) {
+		  background-color: #f1f1f1;
+		}
+		table tr:nth-child(even) {
+		  background-color: #ffffff;
+		}
+
+		.header {
+			text-align: center;
+			margin-top: 30px;
+			color: maroon;
+			font-weight: bold;
+			font-size: 200%;
+
+		}
+
+		.main {
+			margin-left: 50px;
+			margin-right: 50px;
+			min-height:  800px;
+			border: 2px solid grey;
+			
+		}
+
+		.input {
+			margin-left: 10px;
+			display: inline-block;
+			color: red;
+		}
+
+		.output {
+			margin-left: 10px;
+			margin-bottom: 30px;
+		}
+
+
+
+	</style>
+</head>
+<body ng-app="app">
+	<div class="main">
+		<div class="header">INVERTED INDEX</div>
+
+		
+		<div ng-controller="myCtrl">
+			<div class="input">
+				<p ng-model="file"></p> 
+				<input type="file" file-model="myFile">
+				<br>
+				<br>
+				<button class="btn btn-primary" type="button" ng-click="uploadFile()">Create Index
+				</button>
+				<br>
+				<br>
+				<button ng-click="getIndex()">Get Index</button>
+				<br>
+				<br>
+				<form id="search" ng-submit="searchIndex()">
+					<input type="text" placeholder="search" ng-model="formData.search" ng-list>
+					<button type="submit" ng-submit="searchIndex()">Search Index</button>
+					{{ results }}
+				</form>
+				<button ng-click="showFiles()">showFiles</button>
+			</div>
+			<div class="output">
+				<label ng-repeat="file in files">
+					<input type="checkbox" checklist-model="checked.files" checklist-value="file">
+					{{ file }}
+				</label>
+				{{ checked.files }}
+				<table>
+				  <tr ng-repeat="(name, index) in words">
+				    <td>{{ name }}</td>
+				    <td>{{ index }}</td>
+				  </tr>
+				</table>
+				<span id="xmlresults" display="hidden"></span>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+
+		// Creates a new module called 'invertedIndex'
+		var app = angular.module('app', []);
+
+		app.directive('fileModel', ['$parse', function ($parse) {
+            return {
+               restrict: 'A',
+               link: function(scope, element, attrs) {
+                  var model = $parse(attrs.fileModel);
+                  var modelSetter = model.assign;
+                  
+                  element.bind('change', function(){
+                     scope.$apply(function(){
+                        modelSetter(scope, element[0].files[0]);
+                     });
+                  });
+               }
+            };
+         }]);
+
+		 app.service('fileUpload', ['$http', function ($http) {
+            this.uploadFileToUrl = function(file, uploadUrl){
+               var fd = new FormData();
+               fd.append('file', file);
+
+               
+            
+               $http.post(uploadUrl, fd, {
+                  transformRequest: angular.identity,
+                  headers: {'Content-Type': undefined}
+               })
+            
+               .success(function(data){
+               	 return data;
+               })
+            
+               .error(function(){
+               });
+            };
+         }]);
+
+        app.controller('myCtrl', ['$scope', 'fileUpload', '$http', function($scope, fileUpload, $http){
+
+        	$scope.checked = {
+        		files: ['']
+        	};
+
+	        $scope.uploadFile = function(){
+	           var file = $scope.myFile;
+	           $scope.file = $scope.myFile;
+	           var uploadUrl = "/savedata";
+	           $scope.files = fileUpload.uploadFileToUrl(file, uploadUrl);
+	           console.log($scope.files);
+
+	       };
+
+           $scope.getIndex = function() {
+		        $http.get('/api/getIndex').success(function(data, status, headers, config) {
+		            $scope.words = data;
+		            console.log($scope.words);
+		        }).
+		        error(function (data, status, header, config){
+		        	$scope.ResponseDetails = "Data: " + data +
+                    "<br />status: " + status +
+                    "<br />headers: " + jsonFilter(header) +
+                    "<br />config: " + jsonFilter(config);
+		        });
+		    };
+
+		    $scope.searchIndex = function() {
+		    	console.log($scope.formData);
+		    	$http.post('/api/searchIndex', $scope.formData).success(function(data){
+		    		$scope.formData = {};
+		    		$scope.results = data;
+		    		console.log(data);
+		    	}).error(function(data){
+		    		alert('error');
+		    	});
+
+		    };
+
+		    $scope.showFiles = function() {
+		    	$http.get('/api/files').success(function(
+		    		data){
+		    		$scope.files = data.children;
+		    	}).error(function(data, status, headers, config) {
+		    		console.log(data, status, headers, config);
+		    	});
+		    };
+
+		    
+		    //   	$scope.createIndex = function(data) {
+	     //        var config = {
+	     //            headers : {
+	     //                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	     //            }
+	     //        };
+
+	     //        $http.post('/api/createIndex', data, config)
+	     //        .success(function (data, status, headers, config) {
+	     //            console.log('Index created');
+	     //        })
+	     //        .error(function (data, status, header, config) {
+	     //            $scope.ResponseDetails = "Data: " + data +
+	     //                "<hr />status: " + status +
+	     //                "<hr />headers: " + header +
+	     //                "<hr />config: " + config;
+	     //        });
+
+
+      
+
+      //   app.controller('myCtrl', ['$scope', '$http', 'fileUpload' , function MyCtrl($scope, $http, fileUpload) {
+      //   	var file = $scope.myFile;
+
+      //   	$scope.uploadFile = function() {
+      //   		var file = $scope.myFile;
+      //   		console.log('file is ');
+      //   		console.log(file);
+
+      //   		var uploadUrl = "/fileUpload";
+      //   		fileUpload.uploadFileToUrl(file, uploadUrl);
+		    	
+		    // };
+
+      //   	$scope.createIndex = function(data) {
+	     //        var config = {
+	     //            headers : {
+	     //                'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+	     //            }
+	     //        };
+
+	     //        $http.post('/api/createIndex', data, config)
+	     //        .success(function (data, status, headers, config) {
+	     //            console.log('Index created');
+	     //        })
+	     //        .error(function (data, status, header, config) {
+	     //            $scope.ResponseDetails = "Data: " + data +
+	     //                "<hr />status: " + status +
+	     //                "<hr />headers: " + header +
+	     //                "<hr />config: " + config;
+	     //        });
+
+		    // $scope.getIndex = function() {
+		    //     $http.get('/api/getIndex').success(function(data, status, headers, config) {
+		    //         $scope.words = data;
+		    //         console.log($scope.words);
+		    //     }).
+		    //     error(function (data, status, header, config){
+		    //     	$scope.ResponseDetails = "Data: " + data +
+      //               "<br />status: " + status +
+      //               "<br />headers: " + jsonFilter(header) +
+      //               "<br />config: " + jsonFilter(config);
+		    //     });
+		    // };
+		    
+		    	// var config = {
+       //          	headers : {
+       //              	'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+       //          	}
+       //      	};
+
+		     // 	$http.post('/performbatch', $scope.url, config).then(function(url) {
+		     // 		console.log("index created");
+		     // 	}).catch(function(url) {
+		     // 		console.error("error in posting");
+		     // 	});
+		     // };
+		}]);
+
+	</script>
+
+</body>
+</html>
