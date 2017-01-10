@@ -85,17 +85,3 @@ class InvertedIndex {
 }
 
 module.exports = InvertedIndex;
-
-// var file = new InvertedIndex();
-
-// console.log(file.loadFile('../jasmine/test.json'));
-// console.log(file.createIndex());
-// console.log(file.getIndex());
-// console.log(file.searchIndex('books.json', 'alice', 'in', 'a', ['of', 'wonderland', ['world', 'hole', ['powerful', 'destroy']]]));
-
-// var filez = new InvertedIndex();
-
-// console.log(filez.loadFile('../jasmine/test.json'));
-// console.log(filez.createIndex());
-// console.log(filez.getIndex());
-// console.log(filez.searchIndex('test.jsons', 'Alice', 'in', 'a', 'comical'));
