@@ -3,13 +3,17 @@
 class InvertedIndex {
 
   constructor() {
-    // always initialize all instance properties
     this.content = ' ';
     this.done = false;
     this.index_object = {};
 
   }
 
+  /**
+   * Reads a file and JSON.parse the content
+   * @param url
+   * @returns 
+   */
   loadFile(url) {
 
     var fs = require('fs');
@@ -22,10 +26,11 @@ class InvertedIndex {
 
   }
 
+  /**
+   * Creates an index of a JSON file
+   * @returns {}
+   */
   createIndex() {
-    // let fs = require('fs');
-    // this.content = fs.readFileSync(url, 'utf-8');
-
     let index = this.content;
 
 
@@ -49,18 +54,25 @@ class InvertedIndex {
     return "index created";
   }
 
+  /**
+   * Returns the index of a json file
+   * @returns {}
+   */
   getIndex() {
     return this.index_object;
   }
 
+  /**
+   * Accepts a word(s), searches the word(s) in 
+   * the file specified and returns the position of
+   * word(s)
+   * @params filename, terms
+   * @returns []
+   */
   searchIndex(filename, ...terms) {
-    // var natural = require('natural'),  
-    //stemmer = natural.PorterStemmer;  
 
     let content = this.index_object;
-    // console.log(content);
 
-    // terms = stemmer.stem(this.index_object);
     terms = terms.toString().split(",");
     console.log(terms);
 
@@ -84,4 +96,4 @@ class InvertedIndex {
   }
 }
 
-module.exports = InvertedIndex;
+exports = InvertedIndex;

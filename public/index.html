@@ -3,45 +3,45 @@
 
 <head>
   <title>Inverted Index application</title>
+  <!-- css stylesheet -->
   <link rel="stylesheet" type="text/css" href="css/main.css">
+  <!-- angular js script-->
   <script type="text/javascript" src="https://code.angularjs.org/1.3.14/angular.min.js"></script>
 </head>
 
-<body>
+<body ng-controller="MainController">
   <div class="main">
     <div class="header">INVERTED INDEX</div>
-    <div ng-controller="MainController">
-      <div class="input">
-        <p ng-model="file"></p>
-        <input type="file" file-model="myFile">
-        <br>
-        <br>
-        <button class="btn btn-primary" type="button" ng-click="uploadFile()">Create Index
-        </button>
-        <br>
-        <br>
-        <button ng-click="getIndex()">Get Index</button>
-        <br>
-        <br>
-        <form id="search" ng-submit="searchIndex()">
-          <input type="text" placeholder="search" ng-model="formData.search" ng-list>
-          <button type="submit" ng-submit="searchIndex()">Search Index</button>
-          {{ results }}
-        </form>
-        <button ng-click="showFiles()">showFiles</button>
-      </div>
-      <div class="output">
-        <label ng-repeat="file in files">
-          <input type="checkbox" value="file" ng-checked="checked.indexOf(file) > -1" ng-click="toogleSelection(file)"> {{ file }}
-        </label>
-        <table>
-          <tr ng-repeat="(name, index) in words">
-            <td>{{ name }}</td>
-            <td>{{ index }}</td>
-          </tr>
-        </table>
-        <span id="xmlresults" display="hidden"></span>
-      </div>
+    <div class="input">
+      <p ng-model="file"></p>
+      <input type="file" file-model="myFile">
+      <br>
+      <br>
+      <button class="btn btn-primary" type="button" ng-click="uploadFile()">Create Index
+      </button>
+      <br>
+      <br>
+      <button ng-click="getIndex()">Get Index</button>
+      <br>
+      <br>
+      <form id="search" ng-submit="searchIndex()">
+        <input type="text" placeholder="search" ng-model="formData.search" ng-list>
+        <button type="submit" ng-submit="searchIndex()">Search Index</button>
+        {{ results }}
+      </form>
+      <button ng-click="showFiles()">showFiles</button>
+    </div>
+    <div class="output">
+      <label ng-repeat="file in files">
+        <input type="checkbox" value="file" ng-checked="checked.indexOf(file) > -1" ng-click="toogleSelection(file)"> {{ file }}
+      </label>
+      <table>
+        <tr ng-repeat="(name, index) in words">
+          <td>{{ name }}</td>
+          <td>{{ index }}</td>
+        </tr>
+      </table>
+      <span id="xmlresults" display="hidden"></span>
     </div>
   </div>
   <!-- Modules -->
