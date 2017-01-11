@@ -4,7 +4,6 @@ class InvertedIndex {
 
   constructor() {
     this.content = ' ';
-    this.done = false;
     this.index_object = {};
 
   }
@@ -15,7 +14,6 @@ class InvertedIndex {
    * @returns 
    */
   loadFile(url) {
-
     var fs = require('fs');
 
     let json_file = fs.readFileSync(url, 'utf-8');
@@ -33,34 +31,29 @@ class InvertedIndex {
   createIndex() {
     let index = this.content;
 
+    let index_object = {};
 
-    for (let books = 0; books < index.length; books++) {
-      let book = index[books];
-      let book_all = book.title + ' ' + book.text;
-      let clean = book_all.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
+    index.forEach(function(doc) {
+      let fullDoc = doc.title + ' ' + doc.text;
+      let clean = fullDoc.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
       let final_clean = clean.toLowerCase();
       let words = final_clean.split(" ");
 
-      for (let i = 0; i < words.length; i++) {
-        if (!(words[i] in this.index_object)) {
-          this.index_object[words[i]] = [books];
+      words.forEach(function(word) {
+        if (!(word in index_object)) {
+          index_object[word] = [index.indexOf(doc)];
+
         } else {
-          if (!(books in this.index_object[words[i]])) {
-            this.index_object[words[i]].push(books);
+          if (!(index.indexOf(doc) in index_object[word])) {
+            index_object[word].push(index.indexOf(doc));
           }
         }
-      }
-    }
-    return "index created";
+      });
+    });
+    return index_object;
   }
 
-  /**
-   * Returns the index of a json file
-   * @returns {}
-   */
-  getIndex() {
-    return this.index_object;
-  }
+
 
   /**
    * Accepts a word(s), searches the word(s) in 
@@ -69,31 +62,31 @@ class InvertedIndex {
    * @params filename, terms
    * @returns []
    */
-  searchIndex(filename, ...terms) {
-
-    let content = this.index_object;
+  searchIndex(filename, index_object, ...terms) {
 
     terms = terms.toString().split(",");
-    console.log(terms);
 
-    let results = [];
-    let result;
+    const results = [];
+    const doc = {};
     if (terms.length > 1) {
-      for (let i = 0; i < terms.length; i++) {
-        let word = terms[i];
-
-        if (word in content) {
-          results.push(word + ": " + content[word]);
+      terms.forEach(function(term) {
+        if (term in index_object) {
+          results.push(term + ": " + index_object[term]);
         }
-      }
+      });
       return filename + ": " + results;
     } else {
-      if (terms in content) {
-        result = terms + ": " + content[terms];
+      if (terms in index_object) {
+        results.push(terms + ": " + index_object[terms]);
       }
-      return filename + ": " + result;
+      return filename + ": " + results;
     }
   }
 }
 
-exports = InvertedIndex;
+module.exports = InvertedIndex;
+// var files = new InvertedIndex();
+
+// console.log(files.loadFile('../jasmine/books.json'));
+// console.log(files.createIndex());
+// console.log(files.searchIndex('books.json', 'alice', 'of'));

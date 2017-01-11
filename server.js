@@ -12,20 +12,21 @@ const fs = require('fs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 // Creates an instance of inverted index class
-let index = require(__dirname + '/src/inverted-index.js');
-let indexinst = new index();
+var invertedIndex = require(__dirname + '/src/inverted-index.js');
+let indexinst = new invertedIndex();
 
 // Implements multer to store files uploaded to a folder named uploads
-let storage = multer.diskStorage({
+const storage = multer.diskStorage({
   destination: './uploads/',
   filename: function(req, file, cb) {
     cb(null, file.originalname);
   }
 });
 
-let upload = multer({ storage: storage });
+const upload = multer({ storage: storage });
 
 // Initializes the root route to index.html
 app.get('/', function(req, resp) {
@@ -35,42 +36,23 @@ app.get('/', function(req, resp) {
 });
 
 // Calls loadFile() and createIndex() method of the instance
-app.post('/savedata', upload.single('file'), function(req, res, next) {
+app.post('/savedata', upload.single('file'), function(req, resp, next) {
   indexinst.loadFile(__dirname + '/' + req.file.path);
-  indexinst.createIndex();
-  res.send(req.file.path);
+  resp.send(indexinst.createIndex());
 });
 
-// Recieves files and creates an index of the files
-app.post('/api/getIndex', function(req, resp) {
-  let files = req.body;
-  console.log(files);
-  if (files.length < 1) {
-    for (i = 0; i < files.length; i++) {
-      file = files[i];
-      console.log(indexinst.getIndex());
-      res.send(indexinst.getIndex());
-    }
-  } else {
-    console.log(indexinst.getIndex());
-    res.send(indexinst.getIndex());
-  }
-});
 
 // Gets files in the uploads folder and returns
 app.get('/api/files', function(req, resp) {
   uploadsFolder = './uploads/';
   fs.readdir(uploadsFolder, function(err, files) {
-    console.log(files);
     resp.send(files);
   });
 });
 
 // Recieves files and calls the searchIndex function
-app.post('/api/searchIndex', function(req, res) {
-  let results = indexinst.searchIndex('books.json', req.body.search);
-  console.log(results);
-  res.send(results);
+app.post('/api/searchIndex', function(req, resp) {
+  resp.send(indexinst.searchIndex(req.body[0], req.body[1], req.body[2].search));
 });
 
 
