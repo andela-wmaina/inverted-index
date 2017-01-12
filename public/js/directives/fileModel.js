@@ -1,3 +1,5 @@
+/*jshint esversion: 6 */
+
 // fileModel directive
 app.directive('fileModel', ['$parse', function($parse) {
   return {
