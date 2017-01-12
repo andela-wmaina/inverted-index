@@ -6,7 +6,6 @@
   "scripts": {
     "test": "node node_modules/grunt-cli/bin/gulp jasmine",
     "coverage": "istanbul cover jasmine-node --captureExceptions test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
-
   },
   "repository": {
     "type": "git",
@@ -21,7 +20,8 @@
   "devDependencies": {
     "coveralls": "^2.11.15",
     "gulp": "^3.9.1",
-    "gulp-jasmine-node": "^1.0.7"
+    "gulp-jasmine-node": "^1.0.7",
+    "gulp-livereload": "^3.8.1"
   },
   "dependencies": {
     "body-parser": "1.15.2",

@@ -1,6 +1,9 @@
-var gulp = require('gulp'); //importing gulp node package
-var open = require('gulp-open');
-var jasmineNode = require('gulp-jasmine-node');
+/*jshint esversion: 6 */
+
+const gulp = require('gulp'); //importing gulp node package
+const open = require('gulp-open');
+const jasmineNode = require('gulp-jasmine-node');
+const livereload = require('gulp-livereload');
 
 // Loads Jasmine Browser
 gulp.task('jasmine', function() {
@@ -9,12 +12,12 @@ gulp.task('jasmine', function() {
 
 // Loads Jasmine Browser
 gulp.task('browser', function() {
-  console.log('working');
-  return gulp.src("index.html").pipe(open());
+  return gulp.src("index.html").pipe(livereload());
 });
 
 
 gulp.task('watch', function() {
+  livereload.listen();
   // Checks for change in the jasmine folder
   gulp.watch('jasmine/**/*.js', ['jasmine']);
 
