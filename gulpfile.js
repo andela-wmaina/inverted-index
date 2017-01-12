@@ -1,8 +1,6 @@
 var gulp = require('gulp'); //importing gulp node package
 var open = require('gulp-open');
 var jasmineNode = require('gulp-jasmine-node');
-var jasmineBrowser = require('gulp-jasmine-browser');
-
 
 // Loads Jasmine Browser
 gulp.task('jasmine', function() {
