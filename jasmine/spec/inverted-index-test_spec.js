@@ -12,7 +12,7 @@ beforeEach(() => {
 describe("Read book data", () => {
 
   beforeEach(() => {
-    file = index.loadFile(path.join(__dirname, '..', '/jasmine/books.json'));
+    file = index.loadFile(path.join(__dirname, '..', '/books.json'));
   });
 
   //reads json file and asserts it is not empty
@@ -38,7 +38,7 @@ describe("Read book data", () => {
 
 describe("Populate index", () => {
   beforeEach(function() {
-    index.loadFile(path.join(__dirname, '..', '/jasmine/books.json'));
+    index.loadFile(path.join(__dirname, '..', '/books.json'));
     file = index.createIndex();
   });
 
@@ -51,10 +51,10 @@ describe("Populate index", () => {
 
 describe("Search index", () => {
   beforeEach(function() {
-    index.loadFile(path.join(__dirname, '..', '/jasmine/books.json'));
+    index.loadFile(path.join(__dirname, '..', '/books.json'));
     file = index.createIndex();
 
-    index2.loadFile(path.join(__dirname, '..', '/jasmine/test.json'));
+    index2.loadFile(path.join(__dirname, '..', '/test.json'));
     fileTwo = index2.createIndex();
   });
 
