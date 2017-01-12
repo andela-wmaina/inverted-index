@@ -1,7 +1,7 @@
  /*jshint esversion: 6 */
 
- app.controller('MainController', ['$scope', 'fileUpload', '$http', '$localStorage',
-   function($scope, fileUpload, $http, $localStorage) {
+ app.controller('MainController', ['$scope', 'fileUpload', '$http', '$localStorage', 'searchTerms',
+   function($scope, fileUpload, $http, $localStorage, searchTerms) {
 
 
      // Array that holds the checked files
@@ -30,31 +30,6 @@
          let fileName = file.name;
          $localStorage[fileName] = response.data;
        });
-
-     };
-
-     $scope.searchIndex = function() {
-       if ($scope.checked === []) {
-         $scope.files.forEach = function(file) {
-           let data = [file, $localStorage[file], $scope.formData];
-           $http.post('/api/searchIndex', data).success(function(data) {
-             $scope.formData = {};
-             $scope.searchedWords = data;
-           }).error(function(data) {
-             alert('error');
-           });
-         };
-       } else {
-         $scope.checked.forEach(function(file) {
-           let data = [file, $localStorage[file], $scope.formData];
-           $http.post('/api/searchIndex', data).success(function(data) {
-             $scope.formData = {};
-             $scope.searchedWords = data;
-           }).error(function(data) {
-             alert('error');
-           });
-         });
-       }
      };
 
      $scope.showFiles = function() {
@@ -64,7 +39,34 @@
        }).error(function(data, status, headers, config) {
          console.log(data, status, headers, config);
        });
+       console.log($scope.files);
      };
+
+     console.log($scope.files);
+
+     $scope.searchIndex = function(files) {
+       search_terms = $scope.formData;
+       console.log(files);
+       console.log($scope.checked);
+       console.log(search_terms.search);
+       if ($scope.checked.length === 0) {
+         $scope.files.forEach = function(file) {
+           searchTerms.search(file, search_terms).then(function(response) {
+             $scope.formData = {};
+             $scope.searchedWords = response.data;
+           });
+         };
+       } else {
+         $scope.checked.forEach(function(file) {
+           searchTerms.search(file, search_terms).then(function(response) {
+             $scope.formData = {};
+             $scope.searchedWords = response.data;
+           });
+         });
+       }
+
+     };
+
 
    }
  ]);
@@ -86,3 +88,17 @@
      return promise;
    };
  }]);
+
+ app.service('searchTerms', ['$http', '$localStorage',
+   function($http, $localStorage) {
+     this.search = function(file, search_terms) {
+       let data = [file, $localStorage[file], search_terms];
+       var promise = $http.post('/api/searchIndex', data).success(function(data) {
+         return data;
+       }).error(function(data) {
+         alert('error');
+       });
+       return promise;
+     };
+   }
+ ]);

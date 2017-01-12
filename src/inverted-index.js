@@ -20,7 +20,7 @@ class InvertedIndex {
 
     this.content = JSON.parse(json_file);
 
-    return this.content;
+    return json_file;
 
   }
 
@@ -84,7 +84,7 @@ class InvertedIndex {
   }
 }
 
-module.exports = InvertedIndex;
+exports.InvertedIndex = InvertedIndex;
 // var files = new InvertedIndex();
 
 // console.log(files.loadFile('../jasmine/books.json'));

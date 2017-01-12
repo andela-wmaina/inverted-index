@@ -12,10 +12,9 @@ const fs = require('fs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
-app.use('/bower_components', express.static(__dirname + '/bower_components'));
 
 // Creates an instance of inverted index class
-var invertedIndex = require(__dirname + '/src/inverted-index.js');
+let invertedIndex = require(__dirname + '/src/inverted-index.js').InvertedIndex;
 let indexinst = new invertedIndex();
 
 // Implements multer to store files uploaded to a folder named uploads
