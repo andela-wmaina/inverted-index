@@ -1,7 +1,7 @@
  /*jshint esversion: 6 */
 
- app.controller('MainController', ['$scope', 'fileUpload', '$http', '$localStorage', 'searchTerms',
-   function($scope, fileUpload, $http, $localStorage, searchTerms) {
+ app.controller('MainController', ['$scope', 'fileUpload', '$http', '$localStorage',
+   function($scope, fileUpload, $http, $localStorage) {
 
      // Function called when browser is loaded
      var init = function() {
