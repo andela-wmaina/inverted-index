@@ -1,5 +1,7 @@
 /*jshint esversion: 6 */
 
+const path = require('path');
+
 const InvertedIndex = require('../../src/inverted-index.js').InvertedIndex;
 
 beforeEach(() => {
@@ -10,7 +12,7 @@ beforeEach(() => {
 describe("Read book data", () => {
 
   beforeEach(() => {
-    file = index.loadFile('/Users/warengamaina/Documents/D0/inverted-index/jasmine/books.json');
+    file = index.loadFile(path.join(__dirname, '..', '/jasmine/books.json'));
   });
 
   //reads json file and asserts it is not empty
@@ -36,7 +38,7 @@ describe("Read book data", () => {
 
 describe("Populate index", () => {
   beforeEach(function() {
-    index.loadFile('/Users/warengamaina/Documents/D0/inverted-index/jasmine/books.json');
+    index.loadFile(path.join(__dirname, '..', '/jasmine/books.json'));
     file = index.createIndex();
   });
 
@@ -49,10 +51,10 @@ describe("Populate index", () => {
 
 describe("Search index", () => {
   beforeEach(function() {
-    index.loadFile('/Users/warengamaina/Documents/D0/inverted-index/jasmine/books.json');
+    index.loadFile(path.join(__dirname, '..', '/jasmine/books.json'));
     file = index.createIndex();
 
-    index2.loadFile('/Users/warengamaina/Documents/D0/inverted-index/jasmine/test.json');
+    index2.loadFile(path.join(__dirname, '..', '/jasmine/test.json'));
     fileTwo = index2.createIndex();
   });
 
