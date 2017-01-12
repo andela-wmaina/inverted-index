@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node node_modules/grunt-cli/bin/gulp jasmine",
+    "coverage": "node_modules/coveralls/bin/coveralls.js"
+
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,7 @@
   },
   "homepage": "https://github.com/andela-wmaina/inverted-index#readme",
   "devDependencies": {
+    "coveralls": "^2.11.15",
     "gulp": "^3.9.1",
     "gulp-jasmine-node": "^1.0.7"
   },
