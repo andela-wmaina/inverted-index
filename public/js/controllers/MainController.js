@@ -2,12 +2,10 @@
 
  app.controller('MainController', ['$scope', 'fileUpload', '$http', '$localStorage',
    function($scope, fileUpload, $http, $localStorage) {
-
      // Function called when browser is loaded
-     var init = function() {
+     let init = function() {
        showFiles();
      };
-
      init();
 
      // Array that holds the checked files
@@ -26,7 +24,7 @@
      // push or pops a file from the checked array
      // @params file specified
      $scope.toogleSelection = function toogleSelection(file) {
-       var indexNo = $scope.checked.indexOf(file);
+       let indexNo = $scope.checked.indexOf(file);
        if (indexNo > -1) {
          $scope.checked.splice(indexNo, 1);
        } else {
@@ -38,8 +36,8 @@
      // sends the file and it's url to fileUpload service
      // adds the returned index to angular local storage
      $scope.uploadFile = function() {
-       var file = $scope.myFile;
-       var uploadUrl = "/savedata";
+       let file = $scope.myFile;
+       let uploadUrl = "/savedata";
        fileUpload.uploadFileToUrl(file, uploadUrl).then(function(response) {
          let fileName = file.name;
          $localStorage[fileName] = response.data;
@@ -78,10 +76,10 @@
  // angular service
  app.service('fileUpload', ['$http', function($http) {
    this.uploadFileToUrl = function(file, uploadUrl) {
-     var fd = new FormData();
+     let fd = new FormData();
      fd.append('file', file);
 
-     var promise = $http.post(uploadUrl, fd, {
+     let promise = $http.post(uploadUrl, fd, {
        transformRequest: angular.identity,
        headers: {
          'Content-Type': undefined
