@@ -21,6 +21,7 @@
       </div>
     </md-toolbar>
     <div class="input">
+      <md-divider></md-divider>
       <input type="file" file-model="myFile">
       <br>
       <br>
@@ -29,8 +30,11 @@
       <form id="search" ng-submit="searchIndex()">
         <input type="text" placeholder="search" ng-model="formData.search" ng-list>
         <md-button class="md-primary" type="submit" ng-submit="searchIndex()">Search Index</md-button>
-        {{ searchedWords }}
+        <div ng-repeat="terms in searchedWords">
+          {{ terms }}
+        </div>
       </form>
+      <md-divider></md-divider>
     </div>
     <md-divider></md-divider>
     <md-toolbar class="md-default">
@@ -59,8 +63,9 @@
         </tr>
       </tbody>
     </table>
-    <button ng-click="showFiles()">showFiles</button>
-    <table>
+    <md-divider></md-divider>
+    <md-divider></md-divider>
+    <table id="getIndex" ng-show="show">
       <thead>
         <tr>
           <th ng-model="file"></th>
@@ -69,12 +74,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr ng-repeat="(name, index) in fileIndex">
+        <tr ng-repeat="(name, index) in fileIndex" ng-switch="index">
           <td>{{ name }}</td>
-          <td ng-if='index.includes(0)'>X</td>
-          <td></td>
-          <td ng-if='index.includes(1)'>X</td>
-          <td></td>
+          <td>{{ index.includes(0) ? 'X' : ' ' }}</td>
+          <td>{{ index.includes(1) ? 'X' : ' ' }}</td>
         </tr>
       </tbody>
     </table>

@@ -29,11 +29,11 @@ class InvertedIndex {
    * @returns {}
    */
   createIndex() {
-    let index = this.content;
+    let rawData = this.content;
 
     let index_object = {};
 
-    index.forEach(function(doc) {
+    rawData.forEach(function(doc) {
       let fullDoc = doc.title + ' ' + doc.text;
       let clean = fullDoc.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
       let final_clean = clean.toLowerCase();
@@ -41,11 +41,11 @@ class InvertedIndex {
 
       words.forEach(function(word) {
         if (!(word in index_object)) {
-          index_object[word] = [index.indexOf(doc)];
+          index_object[word] = [rawData.indexOf(doc)];
 
         } else {
-          if (!(index.indexOf(doc) in index_object[word])) {
-            index_object[word].push(index.indexOf(doc));
+          if (!(rawData.indexOf(doc) in index_object[word])) {
+            index_object[word].push(rawData.indexOf(doc));
           }
         }
       });
@@ -85,8 +85,3 @@ class InvertedIndex {
 }
 
 exports.InvertedIndex = InvertedIndex;
-// var files = new InvertedIndex();
-
-// console.log(files.loadFile('../jasmine/books.json'));
-// console.log(files.createIndex());
-// console.log(files.searchIndex('books.json', 'alice', 'of'));

@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 
 // Creates an instance of inverted index class
 let invertedIndex = require(__dirname + '/src/inverted-index.js').InvertedIndex;
-let indexinst = new invertedIndex();
+let indexInstance = new invertedIndex();
 
 // Implements multer to store files uploaded to a folder named uploads
 const storage = multer.diskStorage({
@@ -36,8 +36,8 @@ app.get('/', function(req, resp) {
 
 // Calls loadFile() and createIndex() method of the instance
 app.post('/savedata', upload.single('file'), function(req, resp, next) {
-  indexinst.loadFile(__dirname + '/' + req.file.path);
-  resp.send(indexinst.createIndex());
+  indexInstance.loadFile(__dirname + '/' + req.file.path);
+  resp.send(indexInstance.createIndex());
 });
 
 
@@ -51,7 +51,7 @@ app.get('/api/files', function(req, resp) {
 
 // Recieves files and calls the searchIndex function
 app.post('/api/searchIndex', function(req, resp) {
-  resp.send(indexinst.searchIndex(req.body[0], req.body[1], req.body[2].search));
+  resp.send(indexInstance.searchIndex(req.body[0], req.body[1], req.body[2].search));
 });
 
 

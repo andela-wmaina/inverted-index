@@ -27,11 +27,11 @@ table tr:nth-child(even) {
 }
 
 .main {
-  margin-left: 30px;
-  margin-right: 30px;
+  margin-left: 50px;
+  margin-right: 50px;
   min-height: 800px;
   border: 2px solid grey;
-  padding: 1% 3% 3% 3%;
+  padding: 0.5% 5% 5% 5%;
 }
 
 .input {
@@ -43,4 +43,9 @@ table tr:nth-child(even) {
 .output {
   margin-left: 10px;
   margin-bottom: 30px;
+}
+
+#getIndex {
+  width: 60%;
+  margin-left: 20%;
 }
