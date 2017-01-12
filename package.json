@@ -1,0 +1,35 @@
+{
+  "name": "inverted-index",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "node node_modules/grunt-cli/bin/gulp jasmine",
+    "coverage": "istanbul cover jasmine-node --captureExceptions test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-wmaina/inverted-index.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-wmaina/inverted-index/issues"
+  },
+  "homepage": "https://github.com/andela-wmaina/inverted-index#readme",
+  "devDependencies": {
+    "coveralls": "^2.11.15",
+    "gulp": "^3.9.1",
+    "gulp-jasmine-node": "^1.0.7",
+    "gulp-livereload": "^3.8.1"
+  },
+  "dependencies": {
+    "body-parser": "1.15.2",
+    "express": "~4.8.0",
+    "gulp-open": "^2.0.0",
+    "method-override": "~2.0.2",
+    "multer": "1.1.0",
+    "http": "0.0.0",
+    "path": "~0.12.7"
+  }
+}
