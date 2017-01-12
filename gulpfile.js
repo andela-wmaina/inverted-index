@@ -1,29 +1,33 @@
 var gulp = require('gulp'); //importing gulp node package
 var open = require('gulp-open');
+var jasmineNode = require('gulp-jasmine-node');
+var jasmineBrowser = require('gulp-jasmine-browser');
 
-gulp.task('tests', ['watch']);
 
-//triggers jasmine tests
-gulp.task('tests', function() {
-  gulp.src("jasmine/SpecRunner.html").pipe(open());
+// Loads Jasmine Browser
+gulp.task('jasmine', function() {
+  return gulp.src("jasmine/spec/*_spec.js").pipe(jasmineNode());
 });
 
-//watch changes on any jasmine js files
+// Loads Jasmine Browser
+gulp.task('browser', function() {
+  console.log('working');
+  return gulp.src("index.html").pipe(open());
+});
+
+
 gulp.task('watch', function() {
-  gulp.watch('jasmine/**/*.js', ['tests']);
+  // Checks for change in the jasmine folder
+  gulp.watch('jasmine/**/*.js', ['jasmine']);
+
+  //Checks for change in all html file in public
+  gulp.watch('public/*.html', ['browser']);
+
+  //Checks for change in all css file in public 
+  gulp.watch('public/**/*.css', ['browser']);
+
+  //Checks for change in all js file in public
+  gulp.watch('public/js/*.js', ['browser']);
 });
 
-gulp.task('frontend', ['watch2']);
-
-//
-gulp.task('test2', function() {
-  gulp.src("public/invertedindex.html").pipe(open());
-});
-
-gulp.task('watch2', function() {
-  gulp.watch("public/index.html", ['test2']);
-});
-
-// gulp.task('watch', function() {
-//   gulp.watch('src/inverted-index.js', ['tests']);
-// });
+gulp.task('default', ['watch', 'browser', 'jasmine']);
