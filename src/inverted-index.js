@@ -3,7 +3,7 @@
 class InvertedIndex {
 
   constructor() {
-    this.content = '';
+    this.content = "";
     this.indexObject = {};
   }
 
@@ -13,8 +13,8 @@ class InvertedIndex {
    * @returns 
    */
   loadFile(url) {
-    const fs = require('fs');
-    let json_file = fs.readFileSync(url, 'utf-8');
+    const fs = require("fs");
+    let json_file = fs.readFileSync(url, "utf-8");
     isJson(json_file);
     this.content = JSON.parse(json_file);
     return json_file;
@@ -24,11 +24,10 @@ class InvertedIndex {
    * Creates an index of a JSON file
    * @returns {}
    */
-  createIndex() {
-    let rawData = this.content;
+  createIndex(rawData) {
     let indexObject = {};
     rawData.forEach(function(doc) {
-      let fullDoc = doc.title + ' ' + doc.text;
+      let fullDoc = doc.title + " " + doc.text;
       let clean = fullDoc.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "");
       let final_clean = clean.toLowerCase();
       let words = final_clean.split(" ");

@@ -35,9 +35,8 @@ app.get('/', function(req, resp) {
 });
 
 // Calls loadFile() and createIndex() method of the instance
-app.post('/savedata', upload.single('file'), function(req, resp, next) {
-  indexInstance.loadFile(__dirname + '/' + req.file.path);
-  resp.send(indexInstance.createIndex());
+app.post('/createIndex', function(req, resp, next) {
+  resp.send(indexInstance.createIndex(req.body));
 });
 
 

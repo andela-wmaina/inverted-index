@@ -1,8 +1,8 @@
 /*jshint esversion: 6 */
 
-const path = require('path');
+const path = require("path");
 
-const InvertedIndex = require('../../src/inverted-index.js').InvertedIndex;
+const InvertedIndex = require("../../src/inverted-index.js").InvertedIndex;
 
 beforeEach(() => {
   index = new InvertedIndex();
@@ -12,7 +12,7 @@ beforeEach(() => {
 describe("Read book data", () => {
 
   beforeEach(() => {
-    file = index.loadFile(path.join(__dirname, '..', '/books.json'));
+    file = index.loadFile(path.join(__dirname, "..", "/books.json"));
   });
 
   //reads json file and asserts it is not empty
@@ -28,7 +28,7 @@ describe("Read book data", () => {
 
 describe("Populate index", () => {
   beforeEach(() => {
-    index.loadFile(path.join(__dirname, '..', '/books.json'));
+    index.loadFile(path.join(__dirname, "..", "/books.json"));
   });
 
   //checks if index is created
@@ -39,28 +39,28 @@ describe("Populate index", () => {
 
 describe("Search index", () => {
   beforeEach(() => {
-    index.loadFile(path.join(__dirname, '..', '/books.json'));
+    index.loadFile(path.join(__dirname, "..", "/books.json"));
     file = index.createIndex();
 
-    secondIndex.loadFile(path.join(__dirname, '..', '/test.json'));
+    secondIndex.loadFile(path.join(__dirname, "..", "/books.json"));
     secondFile = secondIndex.createIndex();
   });
 
   //Ensures index returns the correct results when searched.
   it("should be correct", () => {
-    expect(index.searchIndex('books.json', file, 'alice')).toBe('books.json: alice: 0');
-    expect(index.searchIndex('test.json', secondFile, 'comical')).toBe('test.json: comical: 1');
+    expect(index.searchIndex("/books.json", file, "alice")).toBe('books.json: alice: 0');
+    expect(index.searchIndex("test.json", secondFile, "comical")).toBe('test.json: comical: 1');
   });
 
   //Ensure searchIndex can handle an array of search terms.
   it("should handle an array of terms", () => {
-    expect(index.searchIndex('books.json', file, 'alliance', 'alice', 'powerful', 'wonderland'))
+    expect(index.searchIndex("books.json", file, 'alliance', 'alice', 'powerful', 'wonderland'))
       .toEqual('books.json: alliance: 1,alice: 0,powerful: 1,wonderland: 0');
   });
 
   //Ensure searchIndex can handle a varied number of search terms as arguments.
   it("should handle a varied number of search terms", () => {
-    expect(index.searchIndex('books.json', file, ['a', 'alice'], 'book', 'me', ['help'])).
+    expect(index.searchIndex("books.json", file, ['a', 'alice'], 'book', 'me', ['help'])).
     toEqual('books.json: a: 0,1,alice: 0');
   });
 

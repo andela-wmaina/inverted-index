@@ -1,12 +1,10 @@
  /*jshint esversion: 6 */
 
- app.controller('MainController', ['$scope', 'fileUpload', '$http', '$localStorage',
-   function($scope, fileUpload, $http, $localStorage) {
-     // Function called when browser is loaded
-     let init = function() {
-       showFiles();
-     };
-     init();
+ app.controller('MainController', ['$scope', '$http', '$localStorage',
+   function($scope, $http, $localStorage) {
+     $scope.fileReady = false;
+     $scope.img = {};
+     $scope.files = [];
 
      // Array that holds the checked files
      $scope.checked = [];
@@ -32,29 +30,6 @@
        }
      };
 
-     // called when a user uploads a file
-     // sends the file and it's url to fileUpload service
-     // adds the returned index to angular local storage
-     $scope.uploadFile = function() {
-       let file = $scope.myFile;
-       let uploadUrl = "/savedata";
-       fileUpload.uploadFileToUrl(file, uploadUrl).then(function(response) {
-         let fileName = file.name;
-         $localStorage[fileName] = response.data;
-       });
-     };
-
-     // Sends a get request to server
-     // returns a list of files in the upload folder
-     function showFiles() {
-       $http.get('/api/files').success(function(
-         data) {
-         $scope.files = data;
-       }).error(function(data, status, headers, config) {
-         console.log(data, status, headers, config);
-       });
-     }
-
      // called when user tries to search a file 
      // returns an array of the results
      $scope.searchIndex = function() {
@@ -72,22 +47,3 @@
 
    }
  ]);
-
- // angular service
- app.service('fileUpload', ['$http', function($http) {
-   this.uploadFileToUrl = function(file, uploadUrl) {
-     let fd = new FormData();
-     fd.append('file', file);
-
-     let promise = $http.post(uploadUrl, fd, {
-       transformRequest: angular.identity,
-       headers: {
-         'Content-Type': undefined
-       }
-     }).success(function(data) {
-       return data;
-     }).error(function() {});
-
-     return promise;
-   };
- }]);
