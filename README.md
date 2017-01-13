@@ -15,16 +15,19 @@ This project is an implementation of an <a href="https://en.wikipedia.org/wiki/I
 
 ### Run it locally
 -----------------------------------------------------------
-Have node.js > 7.2 and npm installed
+Have node.js and npm installed
 
 <strong>Clone this repository</strong>
-	$ https://github.com/andela-wmaina/inverted-index
+	<br>
+	https://github.com/andela-wmaina/inverted-index
 
 <strong>Install the dependencies</strong>
-	$ npm install 
+	<br>
+	npm install 
 
 <strong>Run the server</strong>
-	$ node server.js
+	<br>
+	node server.js
 
 Enjoy!
 
