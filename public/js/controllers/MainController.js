@@ -3,7 +3,7 @@
  app.controller('MainController', ['$scope', '$http', '$localStorage',
    function($scope, $http, $localStorage) {
      $scope.fileReady = false;
-     $scope.img = {};
+     $scope.afile = {};
      $scope.files = [];
 
      // Array that holds the checked files

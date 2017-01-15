@@ -36,6 +36,7 @@ app.get('/', function(req, resp) {
 
 // Calls loadFile() and createIndex() method of the instance
 app.post('/createIndex', function(req, resp, next) {
+  indexInstance.content = req.body;
   resp.send(indexInstance.createIndex(req.body));
 });
 

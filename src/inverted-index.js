@@ -8,23 +8,11 @@ class InvertedIndex {
   }
 
   /**
-   * Reads a file and JSON.parse the content
-   * @param url
-   * @returns 
-   */
-  loadFile(url) {
-    const fs = require("fs");
-    let json_file = fs.readFileSync(url, "utf-8");
-    isJson(json_file);
-    this.content = JSON.parse(json_file);
-    return json_file;
-  }
-
-  /**
    * Creates an index of a JSON file
    * @returns {}
    */
   createIndex(rawData) {
+    this.content = rawData;
     let indexObject = {};
     rawData.forEach(function(doc) {
       let fullDoc = doc.title + " " + doc.text;
@@ -43,6 +31,7 @@ class InvertedIndex {
         }
       });
     });
+    this.indexObject = indexObject;
     return indexObject;
   }
 
@@ -53,7 +42,8 @@ class InvertedIndex {
    * @params filename, terms
    * @returns []
    */
-  searchIndex(filename, indexObject, ...terms) {
+  searchIndex(filename, ...terms) {
+    let indexObject = this.indexObject;
     terms = terms.toString().split(",");
     const results = [];
     const doc = {};
@@ -72,9 +62,10 @@ class InvertedIndex {
     }
   }
 
-  isJson(file) {
+  isJson() {
     try {
-      JSON.parse(file);
+      let stringFile = JSON.stringify(this.content);
+      JSON.parse(stringFile);
     } catch (e) {
       return false;
     }
