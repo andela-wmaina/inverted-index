@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "node node_modules/grunt-cli/bin/gulp jasmine",
-    "coverage": "istanbul cover jasmine-node --captureExceptions test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage": "node node_modules/lcov-filter/index.js lcov.info config | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/andela-wmaina/inverted-index#readme",
   "devDependencies": {
-    "coveralls": "^2.11.15",
     "eslint": "^3.13.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.4.0",
