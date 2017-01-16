@@ -6,12 +6,15 @@ const jasmineNode = require('gulp-jasmine-node');
 const livereload = require('gulp-livereload');
 const coveralls = require('gulp-coveralls');
 
+// Runs coveralls
+gulp.task('coverage', function() {
+  return gulp.src('test/coverage/**/lcov.info')
+    .pipe(coveralls());
+});
 
 
 // Loads Jasmine Browser
 gulp.task('jasmine', function() {
-  gulp.src('test/coverage/**/lcov.info')
-    .pipe(coveralls());
   return gulp.src("jasmine/spec/*_spec.js").pipe(jasmineNode());
 });
 
