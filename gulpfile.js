@@ -4,6 +4,14 @@ const gulp = require('gulp'); //importing gulp node package
 const open = require('gulp-open');
 const jasmineNode = require('gulp-jasmine-node');
 const livereload = require('gulp-livereload');
+const coveralls = require('gulp-coveralls');
+
+// Runs coveralls
+gulp.task('coverage', function() {
+  return gulp.src('test/coverage/**/lcov.info')
+    .pipe(coveralls());
+});
+
 
 // Loads Jasmine Browser
 gulp.task('jasmine', function() {

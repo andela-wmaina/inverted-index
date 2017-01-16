@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "node node_modules/grunt-cli/bin/gulp jasmine",
-    "coverage": "istanbul cover jasmine-node --captureExceptions test && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "coverage": "istanbul cover jasmine-node --captureExceptions spec/ && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
     "gulp": "^3.9.1",
+    "gulp-coveralls": "^0.1.4",
     "gulp-jasmine-node": "^1.0.7",
     "gulp-livereload": "^3.8.1",
     "jshint": "^2.9.4"
@@ -32,9 +33,10 @@
     "body-parser": "1.15.2",
     "express": "~4.8.0",
     "gulp-open": "^2.0.0",
+    "http": "0.0.0",
+    "istanbul": "^0.4.5",
     "method-override": "~2.0.2",
     "multer": "1.1.0",
-    "http": "0.0.0",
     "path": "~0.12.7"
   }
 }
