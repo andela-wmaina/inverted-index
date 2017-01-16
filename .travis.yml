@@ -7,5 +7,3 @@ before_script:
   - npm install -g gulp
 script:
   - gulp jasmine
-after_script:
-  -  npm run coverage

@@ -24,6 +24,7 @@
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
     "gulp": "^3.9.1",
+    "gulp-coveralls": "^0.1.4",
     "gulp-jasmine-node": "^1.0.7",
     "gulp-livereload": "^3.8.1",
     "jshint": "^2.9.4"
