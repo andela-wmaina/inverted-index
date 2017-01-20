@@ -7,42 +7,80 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <!-- angular js script-->
   <script type="text/javascript" src="https://code.angularjs.org/1.3.14/angular.min.js"></script>
-  <!-- Angular Material style sheet -->
-  <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.css">
+
+  <!-- Bootstrap style sheet -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  
   <!-- ngStorage cdn -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
 </head>
 
 <body ng-controller="MainController" ng-cloak>
-  <div class="main">
-    <md-toolbar class="md-primary md-raised md-hue-1">
-      <div class="md-toolbar-tools">
-        <h2 class="md-column">INVERTED INDEX</h2>
-      </div>
-    </md-toolbar>
+  <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <span class="navbar-brand">Inverted Index</span>
+    </div>
+  </div>
+  </nav>
+   <div class="myMain">
+    <br>
+      <div class="description">
+      <p> This app allows you to upload your own JSON file, create an inverted index of it and enables you to search for any word in the files uploaded.</p>
+     </div>
+    <br>
     <div class="input">
-      <md-divider></md-divider>
       <input file-list type="file">
     </div>
     <br>
     <br>
     <form id="search" ng-submit="searchIndex()">
       <input type="text" placeholder="search" ng-model="formData.search" ng-list>
-      <md-button class="md-primary" type="submit" ng-submit="searchIndex()">Search Index</md-button>
-      <div ng-repeat="terms in searchedWords">
-        {{ terms }}
-      </div>
+      <button class="btn btn-default" type="submit" ng-submit="searchIndex()" data-toggle="modal" data-target="#myModal">Search Index</button>
     </form>
-    <md-divider></md-divider>
-    <md-divider></md-divider>
-    <div ng-show="fileReady">
-      <md-toolbar class="md-default">
-        <div class="md-toolbar-tools">
-          <span>Uploaded Files</span>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">Search terms</h4>
+          </div>
+          <div class="modal-body" ng-repeat="file in searchedWords">
+            <div ng-repeat="(title, terms) in file">
+              {{title}}
+              <table class="table table-striped table-bordered table-hover table-condensed">
+                <thead>
+                  <tr>
+                    <th>term</th>
+                    <th>Document 1</th>
+                    <th>Document 2</th>
+                  </tr>
+                </thead>
+                <tbody ng-repeat='(term, index) in terms'>
+                  <tr>
+                    <th>{{ term }}</th>
+                    <td>{{ index[0] }}</td>
+                    <td>{{ index[1] }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
         </div>
-      </md-toolbar>
+      </div>
+    </div>
+
+    <span role="separator" class="divider"></span>
+
+    <div ng-show="fileReady">
+      <span>Uploaded Files</span>
       <!-- uploaded files table -->
-      <table>
+      <table class="table table-striped table-bordered table-hover table-condensed">
         <thead>
           <tr>
             <th></th>
@@ -57,26 +95,40 @@
             </td>
             <td>{{ file }}</td>
             <td>
-              <md-button class="md-primary" ng-click="fetchIndex(file)">Get Index</md-button>
+              <button type="button" class="btn btn-default" ng-click="fetchIndex(file)" data-toggle="modal" data-target="#indexModal">Create Index</button>
+              <!-- Modal -->
+              <div class="modal fade" id="indexModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">{{ file }}</h4>
+                    </div>
+                    <div class="modal-body">
+                      <table class="table table-striped table-bordered table-hover table-condensed">
+                      <thead>
+                        <tr>
+                          <th ng-model="file"></th>
+                          <th>Document 1</th>
+                          <th>Document 2</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(name, index) in fileIndex">
+                          <td>{{ name }}</td>
+                          <td>{{ index.includes(0) ? 'X' : ' ' }}</td>
+                          <td>{{ index.includes(1) ? 'X' : ' ' }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
-          </tr>
-        </tbody>
-      </table>
-      <md-divider></md-divider>
-      <md-divider></md-divider>
-      <table id="getIndex" ng-show="show">
-        <thead>
-          <tr>
-            <th ng-model="file"></th>
-            <th>Document 1</th>
-            <th>Document 2</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="(name, index) in fileIndex" ng-switch="index">
-            <td>{{ name }}</td>
-            <td>{{ index.includes(0) ? 'X' : ' ' }}</td>
-            <td>{{ index.includes(1) ? 'X' : ' ' }}</td>
           </tr>
         </tbody>
       </table>
@@ -94,8 +146,15 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-  <!-- Angular Material Library -->
-  <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.1.0/angular-material.min.js"></script>
+
+    <!-- jQuery cdn -->
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+
+  <!-- Bootstrap JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
 
 </html>
