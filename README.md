@@ -2,7 +2,6 @@
 
 [![Build Status](https://travis-ci.org/andela-wmaina/inverted-index.svg?branch=develop)](https://travis-ci.org/andela-wmaina/inverted-index) [![Coverage Status](https://coveralls.io/repos/github/andela-wmaina/inverted-index/badge.svg?branch=develop)](https://coveralls.io/github/andela-wmaina/inverted-index?branch=develop)
 
-
 This project is an implementation of an <a href="https://en.wikipedia.org/wiki/Inverted_index">inverted index</a>.
 
 ### What it does:
