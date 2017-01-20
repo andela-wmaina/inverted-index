@@ -1,60 +1,36 @@
-/*jshint esversion: 6 */
+ /* jshint esversion: 6 */ 
 
 // Package Dependencies
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
-const multer = require('multer');
-const fs = require('fs');
 
 // Configuration
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // Creates an instance of inverted index class
-let invertedIndex = require(__dirname + '/src/inverted-index.js').InvertedIndex;
-let indexInstance = new invertedIndex();
-
-// Implements multer to store files uploaded to a folder named uploads
-const storage = multer.diskStorage({
-  destination: './uploads/',
-  filename: function(req, file, cb) {
-    cb(null, file.originalname);
-  }
-});
-
-const upload = multer({ storage: storage });
+const InvertedIndex = require(path.join(__dirname, '/src/inverted-index.js')).InvertedIndex;
+const indexInstance = new InvertedIndex();
 
 // Initializes the root route to index.html
-app.get('/', function(req, resp) {
-  resp.sendFile('index.html', {
-    root: path.join(__dirname, './public')
+app.get('/', (req, res) => {
+  res.sendFile('index.html', {
+    root: path.join(__dirname, './public'),
   });
 });
 
-// Calls loadFile() and createIndex() method of the instance
-app.post('/createIndex', function(req, resp, next) {
-  indexInstance.content = req.body;
-  resp.send(indexInstance.createIndex(req.body));
-});
-
-
-// Gets files in the uploads folder and returns
-app.get('/api/files', function(req, resp) {
-  uploadsFolder = './uploads/';
-  fs.readdir(uploadsFolder, function(err, files) {
-    resp.send(files);
-  });
+// Calls createIndex() and getIndex() methods of the instance
+app.post('/createIndex', (req, res) => {
+  indexInstance.createIndex(req.body);
+  res.send(indexInstance.getIndex());
 });
 
 // Recieves files and calls the searchIndex function
-app.post('/api/searchIndex', function(req, resp) {
-  resp.send(indexInstance.searchIndex(req.body[0], req.body[1], req.body[2].search));
+app.post('/api/searchIndex', (req, res) => {
+  res.send(indexInstance.searchIndex(req.body[0], req.body[1], req.body[2].search));
 });
 
-
-app.listen(1337, function() {
-  console.log('Listening at Port 1337');
-});
+app.listen(1337, () => {});

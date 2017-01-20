@@ -1,5 +1,4 @@
- /*jshint esversion: 6 */
-
+ /* jshint esversion: 6 */ 
  app.controller('MainController', ['$scope', '$http', '$localStorage',
    function($scope, $http, $localStorage) {
      $scope.fileReady = false;
@@ -34,16 +33,32 @@
      // returns an array of the results
      $scope.searchIndex = function() {
        $scope.searchedWords = [];
-       $scope.checked.forEach(function(file) {
-         let data = [file, $localStorage[file], $scope.formData];
-         $http.post('/api/searchIndex', data).success(function(data) {
-           $scope.formData = {};
-           $scope.searchedWords.push(data);
-         }).error(function(data) {
-           alert('error');
-         });
+       let data;
+       if ($scope.checked.length === 0 && $scope.files.length > 0) {
+          $scope.files.forEach((file) => {
+            data = [file, $localStorage[file], $scope.formData];
+            $scope.search(data);
+          })
+       }
+       else {
+         $scope.checked.forEach(function(file) {
+         data = [file, $localStorage[file], $scope.formData];
+         $scope.search(data);
        });
+       }
      };
 
+     //
+     $scope.search = function(data) {
+      $http.post('/api/searchIndex', data)
+        .success(function(data) {
+             $scope.formData = {};
+             console.log(data);
+             $scope.searchedWords.push(data);
+        })
+        .error(function(data) {
+             'error';
+        });
+     } 
    }
  ]);
