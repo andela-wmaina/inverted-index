@@ -14,10 +14,17 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
           // inject file on onload
           reader.onload = function(event) {
             scope.$apply(function() {
-              scope.files.push(evt.target.files[0].name);
-              fileName = evt.target.files[0].name;
-              the_url = event.target.result;
-              createIndex(fileName, the_url);
+              fileContent = event.target.result;
+              console.log(isJSON(fileContent));
+              if (isJSON(fileContent)) {
+                scope.files.push(evt.target.files[0].name);
+                fileName = evt.target.files[0].name;
+                createIndex(fileName, fileContent);
+                scope.showError = false;
+              } else {
+                scope.error = 'Not a valid JSON file';
+                scope.showError = true;
+              }
             });
           };
           // when file is read it triggers the onload event
@@ -32,6 +39,14 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
           alert('error');
         });
       };
+      let isJSON = (fileContent) => {
+        try {
+          JSON.parse(fileContent);
+        } catch (e) {
+          return false;
+        }
+        return true;
+      }
     }
   };
 }]);
