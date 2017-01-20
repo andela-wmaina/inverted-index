@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for spec/inverted-index-test_spec.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../prettify.css" />
+    <link rel="stylesheet" href="../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../index.html">all files</a> / <a href="index.html">spec/</a> inverted-index-test_spec.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">15.38% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>4/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>0/0</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">15.38% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>4/26</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/*jshint esversion: 6 */
+&nbsp;
+/* global InvertedIndex */
+&nbsp;
+// const path = require("path");
+&nbsp;
+const invertedIndex = require('../../src/inverted-index.js').InvertedIndex;
+&nbsp;
+&nbsp;
+books = require('../books.json');
+test = require('../test.json');
+&nbsp;
+beforeEach(() =&gt; {
+<span class="cstat-no" title="statement not covered" >  index = new invertedIndex();</span>
+<span class="cstat-no" title="statement not covered" >  secondIndex = new invertedIndex();</span>
+<span class="cstat-no" title="statement not covered" >  index.createIndex(books);</span>
+<span class="cstat-no" title="statement not covered" >  secondIndex.createIndex(test);</span>
+});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >describe("Read book data", () =&gt; {</span>
+&nbsp;
+  //reads json file and asserts it is not empty
+<span class="cstat-no" title="statement not covered" >  it("should not be empty", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    expect(index.content.length).not.toBe(0);</span>
+  });
+&nbsp;
+  //checks if file content is a valid JSON array
+<span class="cstat-no" title="statement not covered" >  it("should be a valid json file", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    expect(index.isJson()).toBe(true);</span>
+  });
+});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >describe("Populate index", () =&gt; {</span>
+  //checks if index is created
+<span class="cstat-no" title="statement not covered" >  it("should have a created index", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    expect(index.indexObject).not.toBe(null);</span>
+  });
+});
+&nbsp;
+<span class="cstat-no" title="statement not covered" >describe("Search index", () =&gt; {</span>
+  //Ensures index returns the correct results when searched.
+<span class="cstat-no" title="statement not covered" >  it("should be correct", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    expect(index.searchIndex("books.json", "alice")).toBe('books.json: alice: 0');</span>
+<span class="cstat-no" title="statement not covered" >    expect(secondIndex.searchIndex("test.json", "comical")).toBe('test.json: comical: 1');</span>
+  });
+&nbsp;
+  //Ensure searchIndex can handle an array of search terms.
+<span class="cstat-no" title="statement not covered" >  it("should handle an array of terms", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    expect(index.searchIndex("books.json", 'alliance', 'alice', 'powerful', 'wonderland'))</span>
+      .toEqual('books.json: alliance: 1,alice: 0,powerful: 1,wonderland: 0');
+  });
+&nbsp;
+  //Ensure searchIndex can handle a varied number of search terms as arguments.
+<span class="cstat-no" title="statement not covered" >  it("should handle a varied number of search terms", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    expect(index.searchIndex("books.json", ['a', 'alice'], 'book', 'me', ['help'])).</span>
+    toEqual('books.json: a: 0,1,alice: 0');
+  });
+&nbsp;
+  //Ensure searchIndex goes through all indexed files if a filename is not passed, 
+  //i.e filename argument should be made optional
+<span class="cstat-no" title="statement not covered" >  it("should search all files if file is not specified", () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    expect(index.searchIndex(undefined, 'alliance', 'alice', 'powerful', 'comical')).</span>
+    toEqual('books.json: alliance: 1,alice: 0,powerful: 1, test.json: comical: 1');
+  });
+&nbsp;
+});
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Sun Jan 15 2017 20:47:34 GMT+0300 (EAT)
+</div>
+</div>
+<script src="../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../sorter.js"></script>
+</body>
+</html>

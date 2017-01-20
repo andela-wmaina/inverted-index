@@ -1,4 +1,4 @@
-
+ /* jshint esversion: 6 */ 
  app.controller('MainController', ['$scope', '$http', '$localStorage',
    function($scope, $http, $localStorage) {
      $scope.fileReady = false;

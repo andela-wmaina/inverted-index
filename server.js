@@ -1,3 +1,5 @@
+ /* jshint esversion: 6 */ 
+
 // Package Dependencies
 const express = require('express');
 const path = require('path');

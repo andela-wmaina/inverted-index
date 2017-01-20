@@ -1,3 +1,4 @@
+/* jshint esversion: 6 */ 
 /* global index secondIndex:true */
 
 const InvertedIndex = require('../../src/inverted-index.js').InvertedIndex;
