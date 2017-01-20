@@ -1,4 +1,5 @@
-
+ /* jshint esversion: 6 */ 
+ 
 const gulp = require('gulp');
 const jasmineNode = require('gulp-jasmine-node');
 const livereload = require('gulp-livereload');
