@@ -62,9 +62,7 @@
          } else {
            results[term] = ['Not Found', 'Not Found'];
            searchTerms[filename] = results;
-           console.log(searchTerms);
          }
-         console.log(searchTerms);
        });
      } else {
        if (terms in indexObject) {
@@ -90,10 +88,3 @@
  }
 
  exports.InvertedIndex = InvertedIndex;
-
- const books = require('../jasmine/books.json');
-
- let index = new InvertedIndex();
- index.createIndex(books);
- let what = index.getIndex();
- console.log(index.searchIndex('books.json', what, 'alice', 'wonderland', 'it'))

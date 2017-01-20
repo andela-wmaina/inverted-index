@@ -2,7 +2,8 @@
  /* eslint no-param-reassign: ["error", { "props": false }]*/
 
  app.controller('MainController', ['$scope', '$http', '$localStorage',
-   function ($scope, $http, $localStorage) {
+   function($scope, $http, $localStorage) {
+     $scope.noFiles = true;
      $scope.fileReady = false;
      $scope.afile = {};
      $scope.files = [];
@@ -13,7 +14,7 @@
      // Get index fuction
      // @params file specified
      // returns the index of the file
-     $scope.fetchIndex = function (file) {
+     $scope.fetchIndex = (file) => {
        $scope.show = true;
        $scope.fileIndex = $localStorage[file];
        return $scope.fileIndex;
@@ -22,7 +23,7 @@
      // called when a checkbox is checked.
      // push or pops a file from the checked array
      // @params file specified
-     $scope.toogleSelection = function toogleSelection(file) {
+     $scope.toogleSelection = (file) => {
        const indexNo = $scope.checked.indexOf(file);
        if (indexNo > -1) {
          $scope.checked.splice(indexNo, 1);

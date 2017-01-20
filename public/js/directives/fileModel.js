@@ -5,15 +5,15 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
     restrict: 'EA',
 
     link: function(scope, element, attrs) {
-      element.bind('change', function(evt) {
-        scope.$apply(function() {
+      element.bind('change', (evt) => {
+        scope.$apply(() => {
           scope[attrs.name] = evt.target.files;
           scope.fileReady = true;
           // new fileReader object
           var reader = new FileReader();
           // inject file on onload
           reader.onload = function(event) {
-            scope.$apply(function() {
+            scope.$apply(() => {
               fileContent = event.target.result;
               console.log(isJSON(fileContent));
               if (isJSON(fileContent)) {
@@ -21,6 +21,7 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
                 fileName = evt.target.files[0].name;
                 createIndex(fileName, fileContent);
                 scope.showError = false;
+                scope.noFiles = false;
               } else {
                 scope.error = 'Not a valid JSON file';
                 scope.showError = true;
