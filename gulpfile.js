@@ -1,29 +1,43 @@
- /* jshint esversion: 6 */ 
- 
-const gulp = require('gulp');
-const jasmineNode = require('gulp-jasmine-node');
-const livereload = require('gulp-livereload');
+ /* jshint esversion: 6 */
 
-// Loads Jasmine Browser
-gulp.task('test', () => gulp.src('jasmine/spec/*_spec.js').pipe(jasmineNode()));
+ const gulp = require('gulp');
+ const jasmineNode = require('gulp-jasmine-node');
+ const open = require('gulp-open');
+ const nodemon = require('gulp-nodemon');
+ const browserSync = require('browser-sync');
 
-// Loads Jasmine Browser
-gulp.task('browser', () => gulp.src('index.html').pipe(livereload()));
+ gulp.task('default', ['browser-sync', 'test', 'watch']);
 
+ // Loads Jasmine Browser
+ gulp.task('test', () => {
+   gulp.src('jasmine/spec/*_spec.js').pipe(jasmineNode());
+ });
 
-gulp.task('watch', () => {
-  livereload.listen();
-  // Checks for change in the jasmine folder
-  gulp.watch('jasmine/**/*.js', ['test']);
+ gulp.task('spec', () => {
+   gulp.src('jasmine/specRunner.html').pipe(open());
+ });
 
-  // Checks for change in all html file in public
-  gulp.watch('public/*.html', ['browser']);
+ gulp.task('watch', () => {
+   gulp.watch('jasmine/spec/*_spec.js', ['spec']);
+ });
 
-  // Checks for change in all css file in public
-  gulp.watch('public/**/*.css', ['browser']);
+ gulp.task('browser-sync', ['nodemon'], () => {
+   browserSync.init(null, {
+     proxy: 'http://localhost:1337',
+     files: ['public/**/*.*'],
+     browser: 'google chrome',
+     port: 5000,
+   });
+ });
 
-  // Checks for change in all js file in public
-  gulp.watch('public/js/*.js', ['browser']);
-});
-
-gulp.task('default', ['watch', 'browser', 'test']);
+ gulp.task('nodemon', (cb) => {
+   let started = false;
+   return nodemon({
+     script: 'server.js',
+   }).on('start', () => {
+     if (!started) {
+       cb();
+       started = true;
+     }
+   });
+ });
