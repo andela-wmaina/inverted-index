@@ -4,22 +4,22 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
   return {
     restrict: 'EA',
 
-    link: function(scope, element, attrs) {
+    link(scope, element, attrs) {
       element.bind('change', (evt) => {
         scope.$apply(() => {
           scope[attrs.name] = evt.target.files;
           scope.fileReady = true;
           // new fileReader object
-          var reader = new FileReader();
+          const reader = new FileReader();
           // inject file on onload
           reader.onload = function(event) {
             scope.$apply(() => {
-              fileContent = event.target.result;
+              const fileContent = event.target.result;
               console.log(isJSON(fileContent));
               if (isJSON(fileContent)) {
                 scope.files.push(evt.target.files[0].name);
-                fileName = evt.target.files[0].name;
-                createIndex(fileName, fileContent);
+                let fileName = evt.target.files[0].name;
+                $localStorage[fileName] = fileContent;
                 scope.showError = false;
                 scope.noFiles = false;
               } else {
@@ -32,22 +32,22 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
           reader.readAsText(evt.target.files[0]);
         });
       });
-      let createIndex = (fileName, url) => {
-        console.log(url);
-        $http.post('/createIndex', url).success(function(file) {
-          $localStorage[fileName] = file;
-        }).error(function(data) {
-          alert('error');
-        });
-      };
       let isJSON = (fileContent) => {
         try {
-          JSON.parse(fileContent);
+          isArray = JSON.parse(fileContent);
+          isArray.some((fileObject) => {
+            if (fileObject.title && fileObject.text) {
+              result = true;
+            } else {
+              result = false;
+              return true;
+            }
+          });
+          return result;
         } catch (e) {
           return false;
         }
-        return true;
-      }
-    }
+      };
+    },
   };
 }]);
