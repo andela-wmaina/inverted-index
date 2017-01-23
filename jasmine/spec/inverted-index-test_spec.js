@@ -2,18 +2,16 @@
 
 const InvertedIndex = require('../../src/inverted-index.js').InvertedIndex;
 
-const books = require('../books.json');
-const test = require('../test.json');
-const reverse = require('../reverse.json');
+const books = require('../files/books.json');
+const test = require('../files/test.json');
+const reverse = require('../files/reverse.json');
 
 let index;
-let secondIndex;
 
 beforeEach(() => {
   index = new InvertedIndex();
-  secondIndex = new InvertedIndex();
-  index.createIndex(books);
-  secondIndex.createIndex(test);
+  index.createIndex('books.json', books);
+  index.createIndex('test.json', test)
 });
 
 describe('Read book data', () => {
@@ -36,45 +34,32 @@ describe('Populate index', () => {
 
   // checks if index created is true
   it('should have the correct index', () => {
-    expect(index.getIndex().alice).toEqual([0]);
-    expect(index.getIndex().hobbit).toEqual([1]);
+    expect(index.getIndex('books.json').alice).toEqual([0]);
   });
 
   it('should not override uploaded files', () => {
-    // creates a new index
-    const newIndex = new InvertedIndex();
-    newIndex.createIndex(reverse);
-
-    expect(index.getIndex().wonderland).toEqual([0]);
-    expect(newIndex.getIndex().wonderland).toEqual([1]);
+    index.createIndex('reverse.json', reverse);
+    expect(index.getIndex('books.json').wonderland).toEqual([0]);
+    expect(index.getIndex('reverse.json').wonderland).toEqual([1]);
   });
 });
 
 describe('Search index', () => {
-  let booksIndex;
-  let testIndex;
-
-  beforeEach(() => {
-    booksIndex = index.getIndex();
-    testIndex = secondIndex.getIndex();
-  });
   // ensures index returns the correct results when searched.
   it('should be correct', () => {
-    expect(index.searchIndex('books.json', booksIndex, 'alice'))
+    expect(index.searchIndex('books.json', 'alice'))
       .toEqual({ 'books.json': { alice: [0] } });
-    expect(secondIndex.searchIndex('test.json', testIndex, 'comical'))
-      .toEqual({ 'test.json': { comical: [1] } });
   });
 
   // ensure searchIndex can handle an array of search terms.
   it('should handle an array of terms', () => {
-    expect(index.searchIndex('books.json', booksIndex, 'alliance', 'alice', 'powerful', 'wonderland'))
+    expect(index.searchIndex('books.json', 'alliance', 'alice', 'powerful', 'wonderland'))
       .toEqual({ 'books.json': { alliance: [1], alice: [0], powerful: [1], wonderland: [0] } });
   });
 
   // ensure searchIndex can handle a varied number of search terms as arguments.
   it('should handle a varied number of search terms', () => {
-    expect(index.searchIndex('books.json', booksIndex, ['a', 'alice'], 'book', 'me', ['help']))
+    expect(index.searchIndex('books.json', ['a', 'alice'], 'book', 'me', ['help']))
       .toEqual({
         'books.json': {
           a: [0, 1],
@@ -86,20 +71,27 @@ describe('Search index', () => {
       });
   });
 
-  /**
-   * ensure searchIndex goes through all indexed files if a filename is not passed,
-   * i.e filename argument should be made optional
-   **/
+  // ensures if file is not specified, all files are searched
   it('should search all files if file is not specified', () => {
-    expect(undefined.searchIndex(undefined, [booksIndex, testIndex], 'alliance', 'alice', 'powerful', 'comical'))
-      .toEqual({
+    let results = [];
+    Object.keys(index.files).forEach(function(obj) {
+      results.push(index.searchIndex(obj, 'alliance', 'alice', 'powerful', 'comical'))
+    });
+    expect(results)
+      .toEqual([{
         'books.json': {
           alliance: [1],
           alice: [0],
           powerful: [1],
-        },
+          comical: ['Not Found', 'Not Found']
+        }
       }, {
-        'test.json': { comical: [1] },
-      });
+        'test.json': {
+          alliance: [0],
+          alice: [0, 1],
+          powerful: [0],
+          comical: [1]
+        }
+      }]);
   });
 });

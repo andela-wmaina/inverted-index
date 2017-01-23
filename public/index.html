@@ -14,6 +14,8 @@
 </head>
 
 <body ng-controller="MainController" ng-cloak>
+  <script async>
+  </script>
   <nav class="navbar navbar-default">
     <div class="container-fluid">
       <div class="navbar-header">
@@ -24,7 +26,7 @@
   <div class="myMain">
     <br>
     <div class="description">
-      <p> This app allows you to upload your own JSON file, create an inverted index of it and enables you to search for any word in the files uploaded.</p>
+      <p> This app allows you to upload your own JSON file, create an inverted index of it and enables you to search for any word in the files uploaded path.</p>
     </div>
     <br>
     <div class="input">
@@ -32,7 +34,8 @@
     </div>
     <br>
     <br>
-    <div ng-show="showError" class="error">{{ error }}
+    <div ng-show="showError" class="error">
+      {{ error }}
       <br>
     </div>
     <form id="search" ng-submit="searchIndex()">
@@ -75,6 +78,10 @@
       </div>
     </div>
     <span role="separator" class="divider"></span>
+    <div ng-show="noFiles">
+      <h4>No Files Uploaded</h4>
+      <br>
+    </div>
     <div ng-show="fileReady">
       <span>Uploaded Files</span>
       <!-- uploaded files table -->
@@ -93,7 +100,7 @@
             </td>
             <td>{{ file }}</td>
             <td>
-              <button type="button" class="btn btn-default" ng-click="fetchIndex(file)" data-toggle="modal" data-target="#indexModal">Create Index</button>
+              <button type="button" class="btn btn-default" ng-click="createIndex(file)" data-toggle="modal" data-target="#indexModal">Create Index</button>
               <!-- Modal -->
               <div class="modal fade" id="indexModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
