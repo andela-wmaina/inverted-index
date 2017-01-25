@@ -11,7 +11,7 @@ let index;
 beforeEach(() => {
   index = new InvertedIndex();
   index.createIndex('books.json', books);
-  index.createIndex('test.json', test)
+  index.createIndex('test.json', test);
 });
 
 describe('Read book data', () => {
@@ -73,9 +73,9 @@ describe('Search index', () => {
 
   // ensures if file is not specified, all files are searched
   it('should search all files if file is not specified', () => {
-    let results = [];
-    Object.keys(index.files).forEach(function(obj) {
-      results.push(index.searchIndex(obj, 'alliance', 'alice', 'powerful', 'comical'))
+    const results = [];
+    Object.keys(index.files).forEach((obj) => {
+      results.push(index.searchIndex(obj, 'alliance', 'alice', 'powerful', 'comical'));
     });
     expect(results)
       .toEqual([{
@@ -83,7 +83,7 @@ describe('Search index', () => {
           alliance: [1],
           alice: [0],
           powerful: [1],
-          comical: ['Not Found', 'Not Found']
+          comical: ['Not Found', 'Not Found'],
         }
       }, {
         'test.json': {

@@ -22,7 +22,7 @@
        $http.post('/createIndex', data).success((index) => {
          $scope.fileIndex = index;
        }).error((err) => {
-         alert(err);
+         $scope.error = 'An error has occurred';
        });
      };
 
@@ -76,7 +76,7 @@
            $scope.searchedWords.push(results);
          })
          .error((err) => {
-           alert(err);
+           $scope.error = 'Index not created';
          });
      };
    },

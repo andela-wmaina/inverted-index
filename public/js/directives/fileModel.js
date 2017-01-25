@@ -9,13 +9,16 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
         scope.$apply(() => {
           scope[attrs.name] = evt.target.files;
           scope.fileReady = true;
+
           // new fileReader object
           const reader = new FileReader();
+
           // inject file on onload
           reader.onload = function(event) {
             scope.$apply(() => {
               const fileContent = event.target.result;
-              console.log(isJSON(fileContent));
+
+              // Checks if file is a valid JSON file
               if (isJSON(fileContent)) {
                 scope.files.push(evt.target.files[0].name);
                 let fileName = evt.target.files[0].name;
@@ -34,7 +37,7 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
       });
       let isJSON = (fileContent) => {
         try {
-          isArray = JSON.parse(fileContent);
+          let isArray = JSON.parse(fileContent);
           isArray.some((fileObject) => {
             if (fileObject.title && fileObject.text) {
               result = true;

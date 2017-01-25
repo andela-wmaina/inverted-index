@@ -69,12 +69,14 @@
            searchTerms[filename] = results;
          }
        });
-     } else if (terms in indexObject) {
-       results[terms] = indexObject[terms];
-       searchTerms[filename] = results;
      } else {
-       results[terms] = ['Not Found', 'Not Found'];
-       searchTerms[filename] = results;
+       if (terms in indexObject) {
+         results[terms] = indexObject[terms];
+         searchTerms[filename] = results;
+       } else {
+         results[terms] = ['Not Found', 'Not Found'];
+         searchTerms[filename] = results;
+       }
      }
      return searchTerms;
    }
