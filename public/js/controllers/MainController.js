@@ -12,8 +12,8 @@
       * createIndex
       *
       * sends a http.post to server with the file.
-      * @params {string} filename
-      * @returns {object} The index of the JSON file
+      * @params {string}
+      * @returns {object} 
       */
      $scope.createIndex = (fileName) => {
        $scope.show = true;
@@ -30,7 +30,8 @@
       * toogleSelection
       *
       * called when a checkbox is checked.
-      * @params file specified
+      *
+      * @param {string}
       */
      $scope.toogleSelection = (file) => {
        const indexNo = $scope.checked.indexOf(file);
@@ -45,7 +46,9 @@
        * searchIndex
        *
        * passes the selected files and the searched words 
-       to search function
+       * to search function
+       *
+       * @param none
        */
      $scope.searchIndex = () => {
        $scope.searchedWords = [];
@@ -67,7 +70,9 @@
       * search
       *
       * sends a http post request to server with the filename 
-      and the searched words
+      * and the searched words.
+      *
+      * @param {Array}
       */
      $scope.search = (data) => {
        $http.post('/api/searchIndex', data)

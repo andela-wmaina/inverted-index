@@ -1,7 +1,16 @@
  /* jshint esversion: 6 */
 
+ /**
+  * Inverted Index class
+  */
  class InvertedIndex {
 
+   /**
+    * @constructor
+    * 
+    * Intialized when an instance of InvertedIndex
+    * is created.
+    */
    constructor() {
      this.files = {};
      this.content = '';
@@ -12,8 +21,10 @@
     * createIndex
     *
     * Creates an index of a JSON file
-    * @params {string} filename, {object} json data
-    * @returns {object} The index of the JSON file
+    *
+    * @param {string} filename
+    * @param {object} json data
+    * @returns {object} 
     */
    createIndex(filename, rawData) {
      this.content = rawData;
@@ -40,8 +51,9 @@
     * getIndex
     *
     * Returns the index of a JSON file
+    *
     * @params {string} filename
-    * @returns {object} The index of the JSON file
+    * @returns {object} 
     */
    getIndex(filename) {
      return this.files[filename];
@@ -50,9 +62,12 @@
    /**
     * searchIndex
     *
-    * Search specified words in the specified index.
-    * @params {string} filename, {array} search words
-    * @returns {object} the index of the searched words
+    * Search specified words in the specified index and
+    * returns the index of the searched words.
+    *
+    * @param {string}
+    * @param {array}
+    * @returns {object}
     */
    searchIndex(filename, ...words) {
      const indexObject = this.files[filename];
@@ -84,10 +99,11 @@
    /**
     * isJson
     *
-    * Checks if a file is a valid JSON file
+    * Checks if a file is a valid JSON file and returns
+    * true if the file is valid and false if it is not.
+    *
     * @params none
-    * @returns {bool} true if file is valid,
-    false if it is not.
+    * @returns {bool}
     */
    isJson() {
      let result;
