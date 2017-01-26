@@ -5,13 +5,13 @@ const InvertedIndex = require('../../src/inverted-index.js').InvertedIndex;
 const books = require('../files/books.json');
 const test = require('../files/test.json');
 const reverse = require('../files/reverse.json');
+const invalid = require('../files/invalid2.json');
 
 let index;
 
 beforeEach(() => {
   index = new InvertedIndex();
   index.createIndex('books.json', books);
-  index.createIndex('test.json', test);
 });
 
 describe('Read book data', () => {
@@ -23,6 +23,11 @@ describe('Read book data', () => {
   // checks if file content is a valid JSON array
   it('should be a valid json file', () => {
     expect(index.isJson()).toBe(true);
+  });
+
+  it('should have a tile and text field', () => {
+    index.createIndex('invalid2.json', invalid)
+    expect(index.isJson()).toBe(false)
   });
 });
 
@@ -49,6 +54,8 @@ describe('Search index', () => {
   it('should be correct', () => {
     expect(index.searchIndex('books.json', 'alice'))
       .toEqual({ 'books.json': { alice: [0] } });
+    expect(index.searchIndex('books.json', 'trees'))
+      .toEqual({ 'books.json': { trees: ['Not Found', 'Not Found'] } });
   });
 
   // ensure searchIndex can handle an array of search terms.
@@ -73,6 +80,7 @@ describe('Search index', () => {
 
   // ensures if file is not specified, all files are searched
   it('should search all files if file is not specified', () => {
+    index.createIndex('test.json', test);
     const results = [];
     Object.keys(index.files).forEach((obj) => {
       results.push(index.searchIndex(obj, 'alliance', 'alice', 'powerful', 'comical'));
