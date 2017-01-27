@@ -1,3 +1,4 @@
+// First defense feedback
 - Asychronously upload files
 - Search results should be better displayed with file name and the search terms in a user friendly manner.
 - Create Index button is unnecessary and confusing.
@@ -17,9 +18,9 @@ Tests
 - Have a better description of tests e.g Populate index should have a created index 
 
 
-// Second defense
+// Second defense feedback
 - Users should create index through the create index button
-- file should not override the index created. Files should uploaded with the same instance
+- File should not override the index created. Files should uploaded with the same instance
 - inverted-index line 19: es6 concatenation
 - Be specific with your regexp, include only the characters you need.
 - Check if json has title and text field.
