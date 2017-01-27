@@ -18,13 +18,13 @@
    gulp.src('jasmine/specRunner.html').pipe(open());
  });
 
-// Watch jasmine spec file and calls spec if any change is detected
+ // Watch jasmine spec file and calls spec if any change is detected
  gulp.task('watch', () => {
    gulp.watch('jasmine/spec/*_spec.js', ['spec']);
  });
 
-// Initializws browser sync and sets it to watch public files
-// if change is detected, nodemon is called.
+ // Initializws browser sync and sets it to watch public files
+ // if change is detected, nodemon is called.
  gulp.task('browser-sync', ['nodemon'], () => {
    browserSync.init(null, {
      proxy: 'http://localhost:1337',

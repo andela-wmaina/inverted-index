@@ -43,13 +43,13 @@
      };
 
      /**
-       * searchIndex
-       *
-       * passes the selected files and the searched words 
-       * to search function
-       *
-       * @param none
-       */
+      * searchIndex
+      *
+      * passes the selected files and the searched words 
+      * to search function
+      *
+      * @param none
+      */
      $scope.searchIndex = () => {
        $scope.searchedWords = [];
        let data;

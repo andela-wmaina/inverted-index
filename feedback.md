@@ -17,10 +17,11 @@ Tests
 - Use eslint
 - Have a better description of tests e.g Populate index should have a created index 
 
-
 // Second defense feedback
-- Users should create index through the create index button
-- File should not override the index created. Files should uploaded with the same instance
-- inverted-index line 19: es6 concatenation
+- Users should create index through the create index button.
+- Uploaded files should not override the current files.
+- Files should be uploaded with the same instance.
+- Inverted-index line 19: es6 concatenation.
 - Be specific with your regexp, include only the characters you need.
 - Check if json has title and text field.
+
