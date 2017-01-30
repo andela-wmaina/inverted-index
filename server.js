@@ -33,4 +33,4 @@
    res.send(indexInstance.searchIndex(req.body[0], req.body[1].search));
  });
 
- app.listen(1337, () => {});
+ app.listen(1337);
