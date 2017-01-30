@@ -27,7 +27,7 @@ describe('Read book data', () => {
 
   it('should have a tile and text field', () => {
     index.createIndex('invalid2.json', invalid);
-    expect(index.isJson()).toBe(false)
+    expect(index.isJson()).toBe(false);
   });
 });
 
