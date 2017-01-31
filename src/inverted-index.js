@@ -7,7 +7,7 @@
 
    /**
     * @constructor
-    * 
+    *
     * Intialized when an instance of InvertedIndex
     * is created.
     */
@@ -24,7 +24,7 @@
     *
     * @param {string} filename
     * @param {object} json data
-    * @returns {object} 
+    * @returns {object}
     */
    createIndex(filename, rawData) {
      this.content = rawData;
@@ -53,7 +53,7 @@
     * Returns the index of a JSON file
     *
     * @params {string} filename
-    * @returns {object} 
+    * @returns {object}
     */
    getIndex(filename) {
      return this.files[filename];
@@ -84,14 +84,12 @@
            searchTerms[filename] = results;
          }
        });
+     } else if (terms in indexObject) {
+       results[terms] = indexObject[terms];
+       searchTerms[filename] = results;
      } else {
-       if (terms in indexObject) {
-         results[terms] = indexObject[terms];
-         searchTerms[filename] = results;
-       } else {
-         results[terms] = ['Not Found', 'Not Found'];
-         searchTerms[filename] = results;
-       }
+       results[terms] = ['Not Found', 'Not Found'];
+       searchTerms[filename] = results;
      }
      return searchTerms;
    }
@@ -102,13 +100,13 @@
     * Checks if a file is a valid JSON file and returns
     * true if the file is valid and false if it is not.
     *
-    * @params none
+    * @param {object}
     * @returns {bool}
     */
-   isJson() {
+   isJson(file) {
      let result;
      try {
-       const stringFile = JSON.stringify(this.content);
+       const stringFile = JSON.stringify(file);
        const isArray = JSON.parse(stringFile);
        isArray.some((fileObject) => {
          if (fileObject.title && fileObject.text) {
