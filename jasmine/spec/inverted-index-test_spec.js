@@ -22,12 +22,12 @@ describe('Read book data', () => {
 
   // checks if file content is a valid JSON array
   it('should be a valid json file', () => {
-    expect(index.isJson()).toBe(true);
+    expect(index.isJson(books)).toBe(true);
   });
 
   it('should have a tile and text field', () => {
     index.createIndex('invalid2.json', invalid);
-    expect(index.isJson()).toBe(false);
+    expect(index.isJson(invalid)).toBe(false);
   });
 });
 
@@ -82,8 +82,8 @@ describe('Search index', () => {
   it('should search all files if file is not specified', () => {
     index.createIndex('test.json', test);
     const results = [];
-    Object.keys(index.files).forEach((obj) => {
-      results.push(index.searchIndex(obj, 'alliance', 'alice', 'powerful', 'comical'));
+    Object.keys(index.files).forEach((filename) => {
+      results.push(index.searchIndex(filename, 'alliance', 'alice', 'powerful', 'comical'));
     });
     expect(results)
       .toEqual([{
@@ -92,14 +92,14 @@ describe('Search index', () => {
           alice: [0],
           powerful: [1],
           comical: ['Not Found', 'Not Found'],
-        }
+        },
       }, {
         'test.json': {
           alliance: [0],
           alice: [0, 1],
           powerful: [0],
-          comical: [1]
-        }
+          comical: [1],
+        },
       }]);
   });
 });
