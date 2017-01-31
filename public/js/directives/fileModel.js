@@ -1,6 +1,6 @@
 /* jshint esversion: 6 */
 
-app.directive('fileList', ['$http', '$localStorage', function ($http, $localStorage) {
+app.directive('fileList', ['$http', '$localStorage', function($http, $localStorage) {
   return {
     restrict: 'EA',
 
