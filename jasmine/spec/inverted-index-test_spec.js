@@ -1,16 +1,17 @@
-/* jshint esversion: 6 */ 
-/* global index secondIndex:true */
+/* jshint esversion: 6 */
 
 const InvertedIndex = require('../../src/inverted-index.js').InvertedIndex;
 
-const books = require('../books.json');
-const test = require('../test.json');
+const books = require('../files/books.json');
+const test = require('../files/test.json');
+const reverse = require('../files/reverse.json');
+const invalid = require('../files/invalid2.json');
+
+let index;
 
 beforeEach(() => {
   index = new InvertedIndex();
-  secondIndex = new InvertedIndex();
-  index.createIndex(books);
-  secondIndex.createIndex(test);
+  index.createIndex('books.json', books);
 });
 
 describe('Read book data', () => {
@@ -21,7 +22,12 @@ describe('Read book data', () => {
 
   // checks if file content is a valid JSON array
   it('should be a valid json file', () => {
-    expect(index.isJson()).toBe(true);
+    expect(index.isJson(books)).toBe(true);
+  });
+
+  it('should have a tile and text field', () => {
+    index.createIndex('invalid2.json', invalid);
+    expect(index.isJson(invalid)).toBe(false);
   });
 });
 
@@ -30,13 +36,26 @@ describe('Populate index', () => {
   it('should have a created index', () => {
     expect(index.indexObject).not.toBe(null);
   });
+
+  // checks if index created is true
+  it('should have the correct index', () => {
+    expect(index.getIndex('books.json').alice).toEqual([0]);
+  });
+
+  it('should not override uploaded files', () => {
+    index.createIndex('reverse.json', reverse);
+    expect(index.getIndex('books.json').wonderland).toEqual([0]);
+    expect(index.getIndex('reverse.json').wonderland).toEqual([1]);
+  });
 });
 
 describe('Search index', () => {
   // ensures index returns the correct results when searched.
   it('should be correct', () => {
-    expect(index.searchIndex('books.json', 'alice')).toEqual({ 'books.json': { alice: [0] } });
-    expect(secondIndex.searchIndex('test.json', 'comical')).toEqual({ 'test.json': { comical: [1] } });
+    expect(index.searchIndex('books.json', 'alice'))
+      .toEqual({ 'books.json': { alice: [0] } });
+    expect(index.searchIndex('books.json', 'trees'))
+      .toEqual({ 'books.json': { trees: ['Not Found', 'Not Found'] } });
   });
 
   // ensure searchIndex can handle an array of search terms.
@@ -48,20 +67,39 @@ describe('Search index', () => {
   // ensure searchIndex can handle a varied number of search terms as arguments.
   it('should handle a varied number of search terms', () => {
     expect(index.searchIndex('books.json', ['a', 'alice'], 'book', 'me', ['help']))
-    .toEqual({ 'books.json':
-    { a: [0, 1],
-      alice: [0],
-      book: ['Not Found', 'Not Found'],
-      me: ['Not Found', 'Not Found'],
-      help: ['Not Found', 'Not Found'] } });
+      .toEqual({
+        'books.json': {
+          a: [0, 1],
+          alice: [0],
+          book: ['Not Found', 'Not Found'],
+          me: ['Not Found', 'Not Found'],
+          help: ['Not Found', 'Not Found'],
+        },
+      });
   });
 
-  /**
-    * ensure searchIndex goes through all indexed files if a filename is not passed, 
-    * i.e filename argument should be made optional
-  **/
+  // ensures if file is not specified, all files are searched
   it('should search all files if file is not specified', () => {
-    expect(index.searchIndex(undefined, 'alliance', 'alice', 'powerful', 'comical'))
-    .toEqual('books.json: alliance: 1,alice: 0,powerful: 1, test.json: comical: 1');
+    index.createIndex('test.json', test);
+    const results = [];
+    Object.keys(index.files).forEach((filename) => {
+      results.push(index.searchIndex(filename, 'alliance', 'alice', 'powerful', 'comical'));
+    });
+    expect(results)
+      .toEqual([{
+        'books.json': {
+          alliance: [1],
+          alice: [0],
+          powerful: [1],
+          comical: ['Not Found', 'Not Found'],
+        },
+      }, {
+        'test.json': {
+          alliance: [0],
+          alice: [0, 1],
+          powerful: [0],
+          comical: [1],
+        },
+      }]);
   });
 });

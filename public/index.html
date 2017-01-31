@@ -7,38 +7,41 @@
   <link rel="stylesheet" type="text/css" href="css/main.css">
   <!-- angular js script-->
   <script type="text/javascript" src="https://code.angularjs.org/1.3.14/angular.min.js"></script>
-
   <!-- Bootstrap style sheet -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  
   <!-- ngStorage cdn -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ngStorage/0.3.6/ngStorage.min.js"></script>
 </head>
 
 <body ng-controller="MainController" ng-cloak>
+  <script async>
+  </script>
   <nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <span class="navbar-brand">Inverted Index</span>
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <span class="navbar-brand">Inverted Index</span>
+      </div>
     </div>
-  </div>
   </nav>
-   <div class="myMain">
+  <div class="myMain">
     <br>
-      <div class="description">
-      <p> This app allows you to upload your own JSON file, create an inverted index of it and enables you to search for any word in the files uploaded.</p>
-     </div>
+    <div class="description">
+      <p> This app allows you to upload your own JSON file, create an inverted index of it and enables you to search for any word in the files uploaded path.</p>
+    </div>
     <br>
     <div class="input">
       <input file-list type="file">
     </div>
     <br>
     <br>
+    <div ng-show="showError" class="error">
+      {{ error }}
+      <br>
+    </div>
     <form id="search" ng-submit="searchIndex()">
       <input type="text" placeholder="search" ng-model="formData.search" ng-list>
       <button class="btn btn-default" type="submit" ng-submit="searchIndex()" data-toggle="modal" data-target="#myModal">Search Index</button>
     </form>
-
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -61,8 +64,8 @@
                 <tbody ng-repeat='(term, index) in terms'>
                   <tr>
                     <th>{{ term }}</th>
-                    <td>{{ index[0] }}</td>
-                    <td>{{ index[1] }}</td>
+                    <td>{{ index.includes(0) ? 'X' : '' }}</td>
+                    <td>{{ index.includes(1) ? 'X' : '' }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -74,9 +77,11 @@
         </div>
       </div>
     </div>
-
     <span role="separator" class="divider"></span>
-
+    <div ng-show="noFiles">
+      <h4>No Files Uploaded</h4>
+      <br>
+    </div>
     <div ng-show="fileReady">
       <span>Uploaded Files</span>
       <!-- uploaded files table -->
@@ -95,7 +100,7 @@
             </td>
             <td>{{ file }}</td>
             <td>
-              <button type="button" class="btn btn-default" ng-click="fetchIndex(file)" data-toggle="modal" data-target="#indexModal">Create Index</button>
+              <button type="button" class="btn btn-default" ng-click="createIndex(file)" data-toggle="modal" data-target="#indexModal">Create Index</button>
               <!-- Modal -->
               <div class="modal fade" id="indexModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
@@ -106,21 +111,21 @@
                     </div>
                     <div class="modal-body">
                       <table class="table table-striped table-bordered table-hover table-condensed">
-                      <thead>
-                        <tr>
-                          <th ng-model="file"></th>
-                          <th>Document 1</th>
-                          <th>Document 2</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr ng-repeat="(name, index) in fileIndex">
-                          <td>{{ name }}</td>
-                          <td>{{ index.includes(0) ? 'X' : ' ' }}</td>
-                          <td>{{ index.includes(1) ? 'X' : ' ' }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                        <thead>
+                          <tr>
+                            <th ng-model="file"></th>
+                            <th>Document 1</th>
+                            <th>Document 2</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="(name, index) in fileIndex">
+                            <td>{{ name }}</td>
+                            <td>{{ index.includes(0) ? 'X' : ' ' }}</td>
+                            <td>{{ index.includes(1) ? 'X' : ' ' }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -146,13 +151,8 @@
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
-
-    <!-- jQuery cdn -->
-  <script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-
+  <!-- jQuery cdn -->
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <!-- Bootstrap JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>

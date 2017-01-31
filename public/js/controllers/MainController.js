@@ -1,27 +1,41 @@
- /* jshint esversion: 6 */ 
+ /* jshint esversion: 6 */
+ /* eslint no-param-reassign: ["error", { "props": false }]*/
+
  app.controller('MainController', ['$scope', '$http', '$localStorage',
-   function($scope, $http, $localStorage) {
+   ($scope, $http, $localStorage) => {
+     $scope.noFiles = true;
      $scope.fileReady = false;
-     $scope.afile = {};
-     $scope.files = [];
+     $scope.files = []; // Contains all uploaded file names
+     $scope.checked = []; // Contains all the checked files names
 
-     // Array that holds the checked files
-     $scope.checked = [];
-
-     // Get index fuction
-     // @params file specified
-     // returns the index of the file
-     $scope.fetchIndex = function(file) {
+     /**
+      * createIndex
+      *
+      * sends a http.post to server with the file.
+      *
+      * @params {string}
+      * @returns {object}
+      */
+     $scope.createIndex = (fileName) => {
        $scope.show = true;
-       $scope.fileIndex = $localStorage[file];
-       return file, $scope.fileIndex;
+       const fileContent = JSON.parse($localStorage[fileName]);
+       const data = [fileName, fileContent];
+       $http.post('/createIndex', data).success((index) => {
+         $scope.fileIndex = index;
+       }).error((err) => {
+         $scope.error = 'An error has occurred';
+       });
      };
 
-     // called when a checkbox is checked. 
-     // push or pops a file from the checked array
-     // @params file specified
-     $scope.toogleSelection = function toogleSelection(file) {
-       let indexNo = $scope.checked.indexOf(file);
+     /**
+      * toogleSelection
+      *
+      * called when a checkbox is checked.
+      *
+      * @param {string}
+      */
+     $scope.toogleSelection = (file) => {
+       const indexNo = $scope.checked.indexOf(file);
        if (indexNo > -1) {
          $scope.checked.splice(indexNo, 1);
        } else {
@@ -29,36 +43,48 @@
        }
      };
 
-     // called when user tries to search a file 
-     // returns an array of the results
-     $scope.searchIndex = function() {
+     /**
+      * searchIndex
+      *
+      * passes the selected files and the searched words
+      * to search function
+      *
+      * @param {array} : $scope.checked
+      * @param {array} : $scope.files
+      */
+     $scope.searchIndex = () => {
        $scope.searchedWords = [];
        let data;
        if ($scope.checked.length === 0 && $scope.files.length > 0) {
-          $scope.files.forEach((file) => {
-            data = [file, $localStorage[file], $scope.formData];
-            $scope.search(data);
-          })
-       }
-       else {
-         $scope.checked.forEach(function(file) {
-         data = [file, $localStorage[file], $scope.formData];
-         $scope.search(data);
-       });
+         $scope.files.forEach((file) => {
+           data = [file, $scope.formData];
+           $scope.search(data);
+         });
+       } else {
+         $scope.checked.forEach((file) => {
+           data = [file, $scope.formData];
+           $scope.search(data);
+         });
        }
      };
 
-     //
-     $scope.search = function(data) {
-      $http.post('/api/searchIndex', data)
-        .success(function(data) {
-             $scope.formData = {};
-             console.log(data);
-             $scope.searchedWords.push(data);
-        })
-        .error(function(data) {
-             'error';
-        });
-     } 
-   }
+     /**
+      * search
+      *
+      * sends a http post request to server with the filename
+      * and the searched words.
+      *
+      * @param {Array}
+      */
+     $scope.search = (data) => {
+       $http.post('/api/searchIndex', data)
+         .success((results) => {
+           $scope.formData = {};
+           $scope.searchedWords.push(results);
+         })
+         .error((err) => {
+           $scope.error = 'Index not created';
+         });
+     };
+   },
  ]);

@@ -4,34 +4,42 @@ app.directive('fileList', ['$http', '$localStorage', function($http, $localStora
   return {
     restrict: 'EA',
 
-    link: function(scope, element, attrs) {
-      element.bind('change', function(evt) {
-        scope.$apply(function() {
+    link(scope, element, attrs) {
+      element.bind('change', (evt) => {
+        scope.$apply(() => {
           scope[attrs.name] = evt.target.files;
           scope.fileReady = true;
+
           // new fileReader object
-          var reader = new FileReader();
+          const reader = new FileReader();
+
           // inject file on onload
-          reader.onload = function(event) {
-            scope.$apply(function() {
-              scope.files.push(evt.target.files[0].name);
-              fileName = evt.target.files[0].name;
-              the_url = event.target.result;
-              createIndex(fileName, the_url);
+          reader.onload = (event) => {
+            const fileContent = event.target.result;
+            scope.$apply(() => {
+              // Checks if file is a valid JSON file
+              $http.post('/isJSON', fileContent)
+              .success((results) => {
+                if (results === true) {
+                  scope.files.push(evt.target.files[0].name);
+                  const fileName = evt.target.files[0].name;
+                  $localStorage[fileName] = fileContent;
+                  scope.showError = false;
+                  scope.noFiles = false;
+                } else {
+                  scope.error = 'Not a valid JSON file';
+                  scope.showError = true;
+                }
+              })
+              .error((err) => {
+                scope.error = 'Not a valid JSON file';
+              });
             });
           };
           // when file is read it triggers the onload event
           reader.readAsText(evt.target.files[0]);
         });
       });
-      let createIndex = (fileName, url) => {
-        console.log(url);
-        $http.post('/createIndex', url).success(function(file) {
-          $localStorage[fileName] = file;
-        }).error(function(data) {
-          alert('error');
-        });
-      };
-    }
+    },
   };
 }]);
