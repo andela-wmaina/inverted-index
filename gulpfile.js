@@ -13,7 +13,7 @@
    gulp.src('jasmine/spec/*_spec.js').pipe(jasmineNode());
  });
 
- // Loads jasmine browser 
+ // Loads jasmine browser
  gulp.task('spec', () => {
    gulp.src('jasmine/specRunner.html').pipe(open());
  });

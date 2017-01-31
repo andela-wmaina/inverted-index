@@ -33,4 +33,9 @@
    res.send(indexInstance.searchIndex(req.body[0], req.body[1].search));
  });
 
+ // Calls isJson() method to check if a file is a valid JSON
+ app.post('/isJson', (req, res) => {
+ 	res.send(indexInstance.isJson(req.body));
+ });
+
  app.listen(1337);
