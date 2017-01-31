@@ -12,8 +12,9 @@
       * createIndex
       *
       * sends a http.post to server with the file.
+      *
       * @params {string}
-      * @returns {object} 
+      * @returns {object}
       */
      $scope.createIndex = (fileName) => {
        $scope.show = true;
@@ -45,10 +46,11 @@
      /**
       * searchIndex
       *
-      * passes the selected files and the searched words 
+      * passes the selected files and the searched words
       * to search function
       *
-      * @param none
+      * @param {array} : $scope.checked
+      * @param {array} : $scope.files
       */
      $scope.searchIndex = () => {
        $scope.searchedWords = [];
@@ -69,7 +71,7 @@
      /**
       * search
       *
-      * sends a http post request to server with the filename 
+      * sends a http post request to server with the filename
       * and the searched words.
       *
       * @param {Array}
